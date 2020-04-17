@@ -1,0 +1,33 @@
+{
+  "gameParams":{
+    "screenWidth": 640,
+    "screenHeight": 480
+  },
+  "tilesParams":{
+
+    "tileWidth": 40,
+    "tileHeight": 40,
+
+    "boardWidth": 9,
+    "boardHeight": 9,
+
+    "totalMines": 10
+  },
+  "tilesTextures":{
+     "bomb": "https://img.icons8.com/plasticine/100/000000/naval-mine.png",
+    "number_0":"https://img.icons8.com/nolan/64/unchecked-checkbox.png",
+    "number_1":"https://img.icons8.com/color/48/000000/1.png",
+    "number_2":"https://img.icons8.com/color/48/000000/2.png",
+    "number_3":"https://img.icons8.com/color/48/000000/3.png",
+    "number_4":"https://img.icons8.com/color/48/000000/4.png",
+    "number_5":"https://img.icons8.com/color/48/000000/5.png",
+    "number_6":"https://img.icons8.com/color/48/000000/6.png",
+    "number_7":"https://img.icons8.com/color/48/000000/7.png",
+    "number_8":"https://img.icons8.com/color/48/000000/8.png",
+
+    "close": "https://img.icons8.com/nolan/64/rounded-square.png",
+    "flag": "https://img.icons8.com/cotton/64/000000/empty-flag.png",
+    "question": "https://img.icons8.com/cute-clipart/64/000000/question.png"
+
+  }
+}
