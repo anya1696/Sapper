@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import BaseDialog from "./BaseDialog";
-import SapperGameModel from "../saperGame/models/SapperGameModel";
 import ButtonWithText from "../elements/buttons/ButtonWithText";
+import SapperGameController from "../saperGame/conrollers/SapperGameController";
 
 export default class PauseScreen extends BaseDialog {
 
@@ -59,12 +59,12 @@ export default class PauseScreen extends BaseDialog {
     }
 
     onContinueGameClick(): void {
-        SapperGameModel.instance.continueGame();
+        SapperGameController.instance.continueGame();
         this.close();
     }
 
     onExitToMenuClick(): void {
-        SapperGameModel.instance.loseGame();
-        SapperGameModel.instance.closeGame();
+        SapperGameController.instance.loseGame();
+        SapperGameController.instance.closeGame();
     }
 }

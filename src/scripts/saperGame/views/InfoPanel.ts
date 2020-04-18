@@ -1,6 +1,6 @@
 import TextLabel from "../../elements/TextLabel";
 import * as PIXI from "pixi.js";
-import SapperGameModel from "../models/SapperGameModel";
+import SapperGameController from "../conrollers/SapperGameController";
 
 export default class InfoPanel extends PIXI.Container {
     private openCounter: TextLabel;
@@ -23,7 +23,7 @@ export default class InfoPanel extends PIXI.Container {
         super();
         this.openCounter = this.getCounterOpenTiles();
         this.addChild(this.openCounter);
-        this.updateAllTiles(SapperGameModel.instance.getAllNumberTiles());
+        this.updateAllTiles(SapperGameController.instance.getAllNumberTiles());
 
         this.flagedCounter = this.getCounterFlagedTiles();
         this.addChild(this.flagedCounter);
@@ -38,7 +38,7 @@ export default class InfoPanel extends PIXI.Container {
 
     getCounterFlagedTiles(): TextLabel {
         const params = this.FLAG;
-        let counter = new TextLabel("flags left: ", undefined);
+        let counter = new TextLabel("flags left: " + SapperGameController.instance.getBombAmount(), undefined);
         counter.position.set(params.x, params.y);
         return counter;
     }

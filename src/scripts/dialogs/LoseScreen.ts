@@ -1,8 +1,8 @@
 import * as PIXI from "pixi.js";
 import BaseDialog from "./BaseDialog";
-import SapperGameModel from "../saperGame/models/SapperGameModel";
 import TextLabel from "../elements/TextLabel";
 import ButtonWithText from "../elements/buttons/ButtonWithText";
+import SapperGameController from "../saperGame/conrollers/SapperGameController";
 
 export default class LoseScreen extends BaseDialog {
     EXIT_TO_MENU_GAME_BUTTON = {
@@ -47,8 +47,8 @@ export default class LoseScreen extends BaseDialog {
     }
 
     onExitToMenuClick(): void {
-        SapperGameModel.instance.loseGame();
-        SapperGameModel.instance.closeGame();
+        SapperGameController.instance.loseGame();
+        SapperGameController.instance.closeGame();
     }
 
     createInfoText(): void {

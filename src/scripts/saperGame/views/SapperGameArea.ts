@@ -4,10 +4,10 @@ import config from "../../config/config.json";
 import PauseButton from "./PauseButton";
 import PauseScreen from "../../dialogs/PauseScreen";
 import LoseScreen from "../../dialogs/LoseScreen";
-import SapperGameModel from "../models/SapperGameModel";
 import WinScreen from "../../dialogs/WinScreen";
 import IGameView from "../../interfaces/IGameView";
 import InfoPanel from "./InfoPanel";
+import SapperGameController from "../conrollers/SapperGameController";
 
 export default class SapperGameArea extends PIXI.Container implements IGameView {
     PAUSE_BUTTON = {
@@ -23,11 +23,14 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
 
     private pauseScreen: PauseScreen | null = null;
     private winScreen: WinScreen | null = null;
-    private infoPanel: InfoPanel;
+    private infoPanel: InfoPanel | null = null;
 
-    constructor(gridMatrix: int[][]) {
+    constructor() {
         super();
 
+    }
+
+    startGame(gridMatrix: int[][]): void{
         let grid = this.createGridTiles(gridMatrix);
         this.addChild(grid);
 
@@ -36,6 +39,7 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
         this.infoPanel = new InfoPanel();
         this.infoPanel.position.set(this.INFO_PANEL.x, this.INFO_PANEL.y);
         this.addChild(this.infoPanel);
+
     }
 
     createGridTiles(gridMatrix: int[][]): PIXI.Container {
@@ -57,7 +61,7 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
     createPauseButton(): void {
         let pauseButton = new PauseButton(this.PAUSE_BUTTON.text);
         pauseButton.position.set(this.PAUSE_BUTTON.x, this.PAUSE_BUTTON.y);
-        pauseButton.onClick(SapperGameModel.instance.pauseGame);
+        pauseButton.onClick(SapperGameController.instance.pauseGame);
         this.addChild(pauseButton);
     }
 
@@ -108,10 +112,14 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
     }
 
     onGameFlagChange(FlagTileAmount: int): void {
-        this.infoPanel.updateFlagTiles(SapperGameModel.instance.bombAmount - FlagTileAmount);
+        if (!this.infoPanel)
+            return;
+        this.infoPanel.updateFlagTiles(SapperGameController.instance.getBombAmount() - FlagTileAmount);
     }
 
     onGameOpenTile(openedTileAmount: int): void {
+        if (!this.infoPanel)
+            return;
         this.infoPanel.updateOpenTiles(openedTileAmount);
     }
 

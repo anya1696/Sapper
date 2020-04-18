@@ -1,8 +1,8 @@
 import * as PIXI from "pixi.js";
 import config from "../../config/config.json";
 
-import SapperGameModel from "../../saperGame/models/SapperGameModel";
 import IViewTile from "../../interfaces/IViewTile";
+import SapperGameController from "../../saperGame/conrollers/SapperGameController";
 
 export default abstract class BaseGridTile extends PIXI.Container implements IViewTile {
     get colNumber(): int {
@@ -51,7 +51,7 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
 
         this.setCloseState();
 
-        SapperGameModel.instance.registerTile(this);
+        SapperGameController.instance.registerTile(this);
         this.on('click', this.onClick);
         this.on('rightclick', this.onRightClick);
 
@@ -80,14 +80,14 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         this.opened = false;
         this.closed = false;
         this.questioned = false;
-        SapperGameModel.instance.incFlagedAmount();
+        SapperGameController.instance.incFlagedAmount();
     }
 
     setQuestionState(): void {
         if (!this.flaged) {
             return;
         }
-        SapperGameModel.instance.decFlagedAmount();
+        SapperGameController.instance.decFlagedAmount();
         this.stateView.texture = this.questionTexture;
 
         this.flaged = false;
@@ -106,7 +106,7 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         this.opened = true;
         this.closed = false;
         this.questioned = false;
-        SapperGameModel.instance.incOpenedAmount();
+        SapperGameController.instance.incOpenedAmount();
     }
 
     openTile(): void {

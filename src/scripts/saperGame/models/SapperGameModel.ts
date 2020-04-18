@@ -1,11 +1,30 @@
 import BaseGridTile from "../../elements/gridTileElements/BaseGridTile";
-import SapperGameArea from "../views/SapperGameArea";
 import IViewTile from "../../interfaces/IViewTile";
-import IGameView from "../../interfaces/IGameView";
+import SapperGameController from "../conrollers/SapperGameController";
 
 export const BOMB_VALUE = -1;
 
 export default class SapperGameModel {
+    set tilesView(value: IViewTile[]) {
+        this._tilesView = value;
+    }
+
+    set isPaused(value: boolean) {
+        this._isPaused = value;
+    }
+
+    get gameEnded(): boolean {
+        return this._gameEnded;
+    }
+
+    set gameEnded(value: boolean) {
+        this._gameEnded = value;
+    }
+
+    get allSaveAmount(): int {
+        return this._allSaveAmount;
+    }
+
     set amountOpenedTile(value: int) {
         this._amountOpenedTile = value;
     }
@@ -22,19 +41,19 @@ export default class SapperGameModel {
         this._flagedAmount = value;
     }
 
-    private allSaveAmount: int;
+    private _allSaveAmount: int;
     private _amountOpenedTile: int = 0;
 
     private matrixWidth: int;
     private matrixHeight: int;
     private _bombAmount: int;
-    private tilesView: IViewTile[];
-    private gameEnded: boolean;
+    private _tilesView: IViewTile[];
+    private _gameEnded: boolean;
     private _isPaused: boolean = false;
 
     private _flagedAmount: int = 0;
 
-    gameView: IGameView | null;
+    //gameView: IGameView | null;
 
     get isPaused(): boolean {
         return this._isPaused;
@@ -48,7 +67,6 @@ export default class SapperGameModel {
         return this._gameMatrix;
     }
 
-    public static instance: SapperGameModel;
     private _gameMatrix: int[][] = [];
 
     constructor(bombAmount: int, matrixWidth: int, matrixHeight: int) {
@@ -56,12 +74,11 @@ export default class SapperGameModel {
         this.matrixWidth = matrixWidth;
         this.matrixHeight = matrixHeight;
 
-        this.allSaveAmount = this.matrixWidth * this.matrixHeight - this._bombAmount;
+        this._allSaveAmount = this.matrixWidth * this.matrixHeight - this._bombAmount;
 
-        this.gameEnded = false;
+        this._gameEnded = false;
 
-        this.tilesView = [];
-        this.gameView = null;
+        this._tilesView = [];
 
         this._amountOpenedTile = 0;
 
@@ -121,11 +138,11 @@ export default class SapperGameModel {
     }
 
     openViewTile(tileView: IViewTile): void {
-        if (tileView.isOpen() || this.gameEnded) return;
+        if (tileView.isOpen() || this._gameEnded) return;
 
         tileView.openTile();
 
-        if (this._amountOpenedTile === this.allSaveAmount) {
+        if (this._amountOpenedTile === this._allSaveAmount) {
             this.winGame();
         }
 
@@ -147,15 +164,11 @@ export default class SapperGameModel {
     }
 
     registerTile(tile: BaseGridTile): void {
-        this.tilesView.push(tile);
-    }
-
-    registerGameView(gameView: SapperGameArea): void {
-        this.gameView = gameView;
+        this._tilesView.push(tile);
     }
 
     findTileByRowCol(rowNumber: int, colNumber: int): IViewTile | null {
-        for (let tile of this.tilesView) {
+        for (let tile of this._tilesView) {
             if (tile.getRow() === rowNumber && tile.getCol() === colNumber)
                 return tile;
         }
@@ -163,45 +176,26 @@ export default class SapperGameModel {
     }
 
     loseGame(): void {
-        this.gameEnded = true;
-        if (this.gameView)
-            this.gameView.loseGame();
+        this._gameEnded = true;
     }
 
     winGame(): void {
-        this.gameEnded = true;
-        if (this.gameView)
-            this.gameView.winGame();
-    }
-
-    closeGame(): void {
-        if (this.gameView)
-            this.gameView.closeGame();
+        this._gameEnded = true;
+        SapperGameController.instance.winGame();
     }
 
     pauseGame(): void {
         if (this.isPaused)
             return;
         this._isPaused = true;
-        if (this.gameView) {
-            this.gameView.pauseGame();
-        }
     }
 
     continueGame(): void {
         this._isPaused = false;
-        if (this.gameView)
-            this.gameView.continueGame();
-    }
-
-    getAllNumberTiles(): int {
-        return this.allSaveAmount;
     }
 
     changeFlagedAmount(flagedAmount: int): void {
         this.flagedAmount = flagedAmount;
-        if (this.gameView)
-            this.gameView.onGameFlagChange(flagedAmount);
     }
 
     incFlagedAmount(): void {
@@ -214,8 +208,6 @@ export default class SapperGameModel {
 
     incOpenedAmount(): void {
         this.amountOpenedTile = (this.amountOpenedTile + 1);
-        if (this.gameView)
-            this.gameView.onGameOpenTile(this._amountOpenedTile);
     }
 
 }

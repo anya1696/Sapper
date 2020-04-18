@@ -2,6 +2,7 @@ import SapperGameModel from "../saperGame/models/SapperGameModel";
 import SapperGameArea from "../saperGame/views/SapperGameArea";
 import * as PIXI from 'pixi.js';
 import ButtonWithText from "../elements/buttons/ButtonWithText";
+import SapperGameController from "../saperGame/conrollers/SapperGameController";
 
 export default class MainMenuScreen extends PIXI.Container {
 
@@ -26,9 +27,10 @@ export default class MainMenuScreen extends PIXI.Container {
     }
 
     onPlayButtonClick(): void {
-        SapperGameModel.instance = new SapperGameModel(10, 10, 10);
-        let gameArea = new SapperGameArea(SapperGameModel.instance.gameMatrix);
-        SapperGameModel.instance.registerGameView(gameArea);
+        let sapperGameModel = new SapperGameModel(10, 10, 10);
+        let gameArea = new SapperGameArea();
+        SapperGameController.instance = new SapperGameController(gameArea, sapperGameModel);
+        gameArea.startGame(SapperGameController.instance.getGameMatrix());
         this.addChild(gameArea);
     }
 

@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import BaseGridTile from "./BaseGridTile";
 import config from "../../config/config.json";
-import SapperGameModel from "../../saperGame/models/SapperGameModel";
+import SapperGameController from "../../saperGame/conrollers/SapperGameController";
 
 const textures = [
     config.tilesTextures.number_0,
@@ -28,7 +28,7 @@ export default class NumberGridTile extends BaseGridTile {
     }
 
     onClick(): void {
-        SapperGameModel.instance.openViewTile(this);
+        SapperGameController.instance.openViewTile(this);
         super.onClick();
     }
 
