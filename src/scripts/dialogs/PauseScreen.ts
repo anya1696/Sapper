@@ -1,19 +1,34 @@
 import * as PIXI from "pixi.js";
-import BaseButton from "../elements/buttons/BaseButton";
 import BaseDialog from "./BaseDialog";
 import SapperGameModel from "../saperGame/models/SapperGameModel";
-
-const CONT_GAME_BUTTON = {
-    x: 100,
-    y: 100
-};
-
-const PAUSE_GAME_BUTTON = {
-    x: 100,
-    y: 200
-};
+import ButtonWithText from "../elements/buttons/ButtonWithText";
 
 export default class PauseScreen extends BaseDialog {
+
+    CONT_GAME_BUTTON = {
+        x: 100,
+        y: 100,
+        text: "Continue",
+        style: new PIXI.TextStyle({
+            fill: "#83dad3",
+            fontSize: 30
+        }),
+        xOffset: 90,
+        yOffset: undefined
+    };
+
+    TO_MAIN_MENU_BUTTON = {
+        x: 100,
+        y: 200,
+        text: "Exit to main menu",
+        style: new PIXI.TextStyle({
+            fill: "#83dad3",
+            fontSize: 30
+        }),
+        xOffset: 158,
+        yOffset: undefined
+    };
+
     constructor() {
         super();
 
@@ -23,37 +38,33 @@ export default class PauseScreen extends BaseDialog {
         this.createExitToMenuButton();
     }
 
-    createContinueGameButton() {
-
+    createContinueGameButton(): void {
         const textureButton = PIXI.Texture.from("https://img.icons8.com/dusk/64/000000/ok-hand.png");
-        const textureButtonDown = PIXI.Texture.from("https://img.icons8.com/dotty/80/000000/ok-hand.png");
-        const textureButtonOver = PIXI.Texture.from("https://img.icons8.com/nolan/64/ok-hand.png");
-        const continueGameButton = new BaseButton(textureButton, textureButtonDown, textureButtonOver);
-        continueGameButton.position.set(CONT_GAME_BUTTON.x, CONT_GAME_BUTTON.y);
-        continueGameButton.on("click", this.onContinueGameClick.bind(this));
+        const params = this.CONT_GAME_BUTTON;
+        const continueGameButton = new ButtonWithText(textureButton, params.text, params.style);
+        continueGameButton.setTextCenterPositionOffset(params.xOffset, params.yOffset);
+        continueGameButton.position.set(params.x, params.y);
+        continueGameButton.onClick(this.onContinueGameClick.bind(this));
         this.addChild(continueGameButton);
     }
 
-    createExitToMenuButton() {
-
+    createExitToMenuButton(): void {
         const textureButton = PIXI.Texture.from("https://img.icons8.com/dusk/64/000000/handshake.png");
-        const textureButtonDown = PIXI.Texture.from("https://img.icons8.com/dotty/80/000000/helping-hand.png");
-        const textureButtonOver = PIXI.Texture.from("https://img.icons8.com/nolan/64/handshake.png");
-        const exitToMenuButton = new BaseButton(textureButton, textureButtonDown, textureButtonOver);
-        exitToMenuButton.position.set(PAUSE_GAME_BUTTON.x, PAUSE_GAME_BUTTON.y);
-        exitToMenuButton.on("click", this.onExitToMenuClick.bind(this));
+        const params = this.TO_MAIN_MENU_BUTTON;
+        const exitToMenuButton = new ButtonWithText(textureButton, params.text, params.style);
+        exitToMenuButton.setTextCenterPositionOffset(params.xOffset, params.yOffset);
+        exitToMenuButton.position.set(params.x, params.y);
+        exitToMenuButton.onClick(this.onExitToMenuClick.bind(this));
         this.addChild(exitToMenuButton);
     }
 
-    onContinueGameClick() {
+    onContinueGameClick(): void {
+        SapperGameModel.instance.continueGame();
         this.close();
     }
 
-    onExitToMenuClick() {
+    onExitToMenuClick(): void {
         SapperGameModel.instance.loseGame();
         SapperGameModel.instance.closeGame();
-    }
-
-    show(): void {
     }
 }

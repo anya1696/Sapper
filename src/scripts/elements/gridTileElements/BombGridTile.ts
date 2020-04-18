@@ -4,16 +4,16 @@ import config from "../../config/config.json";
 import SapperGameModel from "../../saperGame/models/SapperGameModel";
 
 export default class BombGridTile extends BaseGridTile {
-    constructor(colNumber: int, rowNumber: int){
+    constructor(colNumber: int, rowNumber: int) {
         super(PIXI.Texture.from(config.tilesTextures.bomb), colNumber, rowNumber);
     }
 
-    onClick(){
+    onClick(): void {
         super.onClick();
         this.openTile();
     }
 
-    openTile(){
+    openTile(): void {
         super.openTile();
         if (this.opened)
             SapperGameModel.instance.loseGame();

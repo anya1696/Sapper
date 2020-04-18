@@ -1,5 +1,8 @@
 {
-  "include": [ "./src/**/*.ts" ],
+  "include": [
+    "./src/**/*.ts",
+    "node_modules/gsap/types/gsap-core.d.ts"
+  ],
   "compilerOptions": {
     /* Basic Options */
     "target": "es5",                          /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'. */

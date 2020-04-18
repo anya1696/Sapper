@@ -19,22 +19,21 @@ export default class NumberGridTile extends BaseGridTile {
     get number(): int {
         return this._number;
     }
+
     private _number: int;
-    constructor(number: int, colNumber: int, rowNumber: int){
+
+    constructor(number: int, colNumber: int, rowNumber: int) {
         super(PIXI.Texture.from(textures[number]), colNumber, rowNumber);
         this._number = number;
     }
 
-    onClick(){
+    onClick(): void {
         SapperGameModel.instance.openViewTile(this);
         super.onClick();
-        //this.openTile();
-
     }
 
-    shouldProvokeRecursive(){
-        //console.log(this.number === 0, !this.isOpen);
-        return this.number === 0;
+    shouldProvokeRecursive(): boolean {
+        return this.number === 0 && !this.flaged;
     }
 
 }

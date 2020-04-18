@@ -1,28 +1,44 @@
-import {IDialog} from "../mainMenu/MainMenuScreen";
 import * as PIXI from 'pixi.js';
+import IDialog from "../interfaces/IDialog";
+import {TweenLite} from "gsap";
+import {APP_HEIGHT, APP_WIDTH} from "../app";
 
-export default class BaseDialog extends PIXI.Container implements IDialog{
+export default class BaseDialog extends PIXI.Container implements IDialog {
     private background: PIXI.Sprite;
-    constructor(){
+
+    DEFAULT_SHADOW = {
+        width: APP_WIDTH,
+        height: APP_HEIGHT,
+        tint: 0x000000,
+        alpha: 0.6
+    };
+
+    constructor() {
         super();
         this.background = PIXI.Sprite.from(PIXI.Texture.WHITE);
         this.background.visible = false;
         this.addChild(this.background);
     }
 
-    createShadow(){
+    createShadow(): void {
+        const params = this.DEFAULT_SHADOW;
         this.background.visible = true;
-        this.background.width = 500;
-        this.background.height = 500;
-        this.background.tint = 0x000000;
-        this.background.alpha = 0.6;
+        this.background.width = params.width;
+        this.background.height = params.height;
+        this.background.tint = params.tint;
+        this.background.alpha = params.alpha;
+        this.background.interactive = true;
     }
 
     show(): void {
-
+        TweenLite.fromTo(this.scale, 2, {x: 0, y: 0}, {x: 1, y: 1, ease: "elastic.out(1, 0.5)"})
     }
 
-    close(){
-        this.destroy();
+    close(): void {
+        TweenLite.to(this.scale, 2, {
+            x: 0, y: 0, ease: "elastic.out(1, 0.5)", onComplete: () => {
+                this.destroy();
+            }
+        });
     }
 }

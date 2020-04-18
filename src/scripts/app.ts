@@ -10,6 +10,7 @@ interface EngineParams {
     canvasH: number,
     fpsMax: number
 }
+
 let _renderer: PIXI.Renderer;
 
 class Engine {
@@ -40,10 +41,13 @@ class Engine {
     }
 }
 
+export const APP_WIDTH = 800;
+export const APP_HEIGHT = 450;
+
 const engine = new Engine({
     containerId: 'game',
-    canvasW: 800,
-    canvasH: 450,
+    canvasW: APP_WIDTH,
+    canvasH: APP_HEIGHT,
     fpsMax: 60
 });
 

@@ -1,12 +1,14 @@
 import * as PIXI from "pixi.js";
 import config from "../../config/config.json";
 
-import SapperGameModel, {IViewTile} from "../../saperGame/models/SapperGameModel";
+import SapperGameModel from "../../saperGame/models/SapperGameModel";
+import IViewTile from "../../interfaces/IViewTile";
 
 export default abstract class BaseGridTile extends PIXI.Container implements IViewTile {
     get colNumber(): int {
         return this._colNumber;
     }
+
     get rowNumber(): int {
         return this._rowNumber;
     }
@@ -26,7 +28,7 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
     private _rowNumber: int;
     private _colNumber: int;
 
-    constructor(texture: PIXI.Texture, colNumber: int, rowNumber: int){
+    constructor(texture: PIXI.Texture, colNumber: int, rowNumber: int) {
         super();
 
         this.openTexture = texture;
@@ -78,12 +80,14 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         this.opened = false;
         this.closed = false;
         this.questioned = false;
+        SapperGameModel.instance.incFlagedAmount();
     }
 
     setQuestionState(): void {
         if (!this.flaged) {
             return;
         }
+        SapperGameModel.instance.decFlagedAmount();
         this.stateView.texture = this.questionTexture;
 
         this.flaged = false;
@@ -102,22 +106,23 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         this.opened = true;
         this.closed = false;
         this.questioned = false;
+        SapperGameModel.instance.incOpenedAmount();
     }
 
-    openTile(){
+    openTile(): void {
         this.setOpenState();
     }
 
-    onClick(){
+    onClick(): void {
 
     }
 
-    onRightClick(){
-        if (this.closed){
+    onRightClick(): void {
+        if (this.closed) {
             this.setFlagState();
-        }else if (this.flaged){
+        } else if (this.flaged) {
             this.setQuestionState();
-        }else if(this.questioned){
+        } else if (this.questioned) {
             this.setCloseState();
         }
     }
