@@ -28,7 +28,6 @@ class Engine {
             height: params.canvasH,
             antialias: true
         });
-        //TODO проверить
         _renderer = this.renderer;
         this.stage = new PIXI.Container();
         this.graphics = new PIXI.Graphics();
@@ -102,18 +101,13 @@ function render() {
     engine.renderer.render(engine.stage);
     fpsMeter.tick();
 }
-//$("canvas")[0].onmousedown = function(e){ if (e.button == 2) console.log("right"); };
-
-// function disableContextMenu(canvas: any) {
-//     canvas.addEventListener('contextmenu', (e) => {
-//         e.preventDefault();
-//     });
-// }
 
 export function spriteToTexture(obj: PIXI.Sprite) {
     let container = new PIXI.Container();
     container.addChild(obj);
-    const texture = _renderer.generateTexture(container, 1, 1, new PIXI.Rectangle(0,0,100, 100));
+
+    // @ts-ignore
+    const texture = _renderer.generateTexture(container);
 
     return texture;
 }

@@ -42,9 +42,10 @@ export default class ButtonWithText extends PIXI.Container {
         let textLabel = this.textLabel;
         if (!textLabel)
             return;
+
         textLabel.position.set(
-            (this.button.width - textLabel.width) / 2 + this.xCenterOffset,
-            (this.button.height - textLabel.height) / 2 + this.yCenterOffset);
+            (-textLabel.width) / 2 + this.xCenterOffset,
+            (-textLabel.height) / 2 + this.yCenterOffset);
     }
 
     onClick(callBack: any): void {

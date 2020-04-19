@@ -19,6 +19,11 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
         text: "Pause"
     };
 
+    TILE_GRID = {
+        x: 20,
+        y: 20
+    };
+
     INFO_PANEL = {
         x: 630,
         y: 200
@@ -60,6 +65,9 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
                 tile.position.set(config.tilesParams.tileWidth * i, config.tilesParams.tileHeight * j);
             }
         }
+
+        gridContainer.position.set(this.TILE_GRID.x, this.TILE_GRID.y);
+
         this.addChild(gridContainer);
         this.tileGrid = tileGrid;
     }

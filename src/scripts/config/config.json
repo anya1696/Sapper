@@ -11,6 +11,7 @@
     "totalMines": 10
   },
   "tilesTextures": {
+    "playButton":"https://img.icons8.com/dusk/256/000000/refresh.png",
     "bomb": "https://img.icons8.com/plasticine/100/000000/naval-mine.png",
     "number_0": "https://img.icons8.com/nolan/64/unchecked-checkbox.png",
     "number_1": "https://img.icons8.com/color/48/000000/1.png",

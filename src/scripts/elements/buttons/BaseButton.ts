@@ -3,8 +3,8 @@ import {spriteToTexture} from "../../app";
 
 export default class BaseButton extends PIXI.Sprite {
     TINTS = {
-        over: 0xEEEEEE,
-        down:0x999999
+        over: 0xdddddd,
+        down: 0x999999
     };
 
     textureButton: PIXI.Texture;
@@ -63,21 +63,17 @@ export default class BaseButton extends PIXI.Sprite {
         this.texture = this.textureButton;
     }
 
-    generateDownTexture(){
+    generateDownTexture() {
         let textureButtonDown = PIXI.Sprite.from(this.textureButton);
         textureButtonDown.tint = this.TINTS.down;
 
-        //TODO починить
-        return this.textureButton;
         return spriteToTexture(textureButtonDown);
     }
 
-    generateOverTexture(){
+    generateOverTexture() {
         let textureButtonOver = PIXI.Sprite.from(this.textureButton);
         textureButtonOver.tint = this.TINTS.over;
 
-        //TODO починить
-        return this.textureButton;
         return spriteToTexture(textureButtonOver);
     }
 

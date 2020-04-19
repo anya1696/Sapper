@@ -11,17 +11,17 @@ export default class MainMenuScreen extends PIXI.Container {
         x: 200,
         y: 200,
         text: "Play",
-        style: undefined
+        style: undefined,
+        texture: "playButton"
     };
 
     constructor() {
         super();
-        this.createPlayButton();
         this.loadResourses();
     }
 
     createPlayButton(): void {
-        const textureButton = PIXI.Texture.from("https://img.icons8.com/dusk/256/000000/refresh.png");
+        const textureButton = LoaderManager.instance.getResourcesByName(this.PLAY_BUTTON.texture).texture;
         const playButton = new ButtonWithText(textureButton, this.PLAY_BUTTON.text, this.PLAY_BUTTON.style);
         playButton.position.set(this.PLAY_BUTTON.x, this.PLAY_BUTTON.y);
         playButton.onClick(this.onPlayButtonClick.bind(this));
@@ -38,6 +38,7 @@ export default class MainMenuScreen extends PIXI.Container {
 
     loadResourses(){
         LoaderManager.instance = new LoaderManager();
+        LoaderManager.instance.setBaseLoadCallback(this.createPlayButton.bind(this));
         LoaderManager.instance.addResourcesToLoadFromConfig();
         LoaderManager.instance.startLoad();
     }
