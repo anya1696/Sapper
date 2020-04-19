@@ -3,6 +3,7 @@ import SapperGameArea from "../saperGame/views/SapperGameArea";
 import * as PIXI from 'pixi.js';
 import ButtonWithText from "../elements/buttons/ButtonWithText";
 import SapperGameController from "../saperGame/conrollers/SapperGameController";
+import LoaderManager from "../managers/LoaderManager";
 
 export default class MainMenuScreen extends PIXI.Container {
 
@@ -16,6 +17,7 @@ export default class MainMenuScreen extends PIXI.Container {
     constructor() {
         super();
         this.createPlayButton();
+        this.loadResourses();
     }
 
     createPlayButton(): void {
@@ -32,6 +34,12 @@ export default class MainMenuScreen extends PIXI.Container {
         SapperGameController.instance = new SapperGameController(gameArea, sapperGameModel);
         gameArea.startGame(SapperGameController.instance.getGameMatrix());
         this.addChild(gameArea);
+    }
+
+    loadResourses(){
+        LoaderManager.instance = new LoaderManager();
+        LoaderManager.instance.addResourcesToLoadFromConfig();
+        LoaderManager.instance.startLoad();
     }
 
 

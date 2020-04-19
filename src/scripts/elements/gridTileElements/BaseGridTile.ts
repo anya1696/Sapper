@@ -1,6 +1,5 @@
 import * as PIXI from "pixi.js";
 import config from "../../config/config.json";
-
 import IViewTile from "../../interfaces/IViewTile";
 import SapperGameController from "../../saperGame/conrollers/SapperGameController";
 

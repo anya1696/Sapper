@@ -3,6 +3,7 @@ import BaseDialog from "./BaseDialog";
 import ButtonWithText from "../elements/buttons/ButtonWithText";
 import TextLabel from "../elements/TextLabel";
 import SapperGameController from "../saperGame/conrollers/SapperGameController";
+import LoaderManager from "../managers/LoaderManager";
 
 export default class WinScreen extends BaseDialog {
 
@@ -15,7 +16,8 @@ export default class WinScreen extends BaseDialog {
             fontSize: 30
         }),
         xOffset: undefined,
-        yOffset: 25
+        yOffset: 25,
+        texture: "buttonToMainMenu"
     };
 
     TEXT_ELEMENT = {
@@ -39,8 +41,8 @@ export default class WinScreen extends BaseDialog {
     }
 
     createExitToMenuButton(): void {
-        const textureButton = PIXI.Texture.from("https://img.icons8.com/dusk/64/000000/handshake.png");
         const params = this.EXIT_TO_MENU_GAME_BUTTON;
+        const textureButton = LoaderManager.instance.getResourcesByName(params.texture).texture;
         const exitToMenuButton = new ButtonWithText(textureButton, params.text, params.style);
         exitToMenuButton.position.set(params.x, params.y);
         exitToMenuButton.setTextCenterPositionOffset(params.xOffset, params.yOffset);

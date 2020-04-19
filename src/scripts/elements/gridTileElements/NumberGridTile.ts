@@ -1,18 +1,17 @@
-import * as PIXI from "pixi.js";
 import BaseGridTile from "./BaseGridTile";
-import config from "../../config/config.json";
 import SapperGameController from "../../saperGame/conrollers/SapperGameController";
+import LoaderManager from "../../managers/LoaderManager";
 
 const textures = [
-    config.tilesTextures.number_0,
-    config.tilesTextures.number_1,
-    config.tilesTextures.number_2,
-    config.tilesTextures.number_3,
-    config.tilesTextures.number_4,
-    config.tilesTextures.number_5,
-    config.tilesTextures.number_6,
-    config.tilesTextures.number_7,
-    config.tilesTextures.number_8
+    "number_0",
+    "number_1",
+    "number_2",
+    "number_3",
+    "number_4",
+    "number_5",
+    "number_6",
+    "number_7",
+    "number_8"
 ];
 
 export default class NumberGridTile extends BaseGridTile {
@@ -23,7 +22,8 @@ export default class NumberGridTile extends BaseGridTile {
     private _number: int;
 
     constructor(number: int, colNumber: int, rowNumber: int) {
-        super(PIXI.Texture.from(textures[number]), colNumber, rowNumber);
+        //super(PIXI.Texture.from(LoaderManager.instance.getResourcesByName("number_"+ number)), colNumber, rowNumber);
+        super(LoaderManager.instance.getResourcesByName(textures[number]).texture, colNumber, rowNumber);
         this._number = number;
     }
 
@@ -31,7 +31,7 @@ export default class NumberGridTile extends BaseGridTile {
         SapperGameController.instance.onTileClick(this);
         super.onClick();
     }
-
+//
     shouldProvokeRecursive(): boolean {
         return this.number === 0 && !this.flaged;
     }

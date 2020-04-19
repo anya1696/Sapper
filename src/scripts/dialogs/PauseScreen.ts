@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js";
 import BaseDialog from "./BaseDialog";
 import ButtonWithText from "../elements/buttons/ButtonWithText";
 import SapperGameController from "../saperGame/conrollers/SapperGameController";
+import LoaderManager from "../managers/LoaderManager";
 
 export default class PauseScreen extends BaseDialog {
 
@@ -14,7 +15,8 @@ export default class PauseScreen extends BaseDialog {
             fontSize: 30
         }),
         xOffset: 90,
-        yOffset: undefined
+        yOffset: undefined,
+        texture: "continueGameButton"
     };
 
     TO_MAIN_MENU_BUTTON = {
@@ -26,7 +28,8 @@ export default class PauseScreen extends BaseDialog {
             fontSize: 30
         }),
         xOffset: 158,
-        yOffset: undefined
+        yOffset: undefined,
+        texture: "buttonToMainMenu"
     };
 
     constructor() {
@@ -39,8 +42,8 @@ export default class PauseScreen extends BaseDialog {
     }
 
     createContinueGameButton(): void {
-        const textureButton = PIXI.Texture.from("https://img.icons8.com/dusk/64/000000/ok-hand.png");
         const params = this.CONT_GAME_BUTTON;
+        const textureButton = LoaderManager.instance.getResourcesByName(params.texture).texture;
         const continueGameButton = new ButtonWithText(textureButton, params.text, params.style);
         continueGameButton.setTextCenterPositionOffset(params.xOffset, params.yOffset);
         continueGameButton.position.set(params.x, params.y);
@@ -49,8 +52,8 @@ export default class PauseScreen extends BaseDialog {
     }
 
     createExitToMenuButton(): void {
-        const textureButton = PIXI.Texture.from("https://img.icons8.com/dusk/64/000000/handshake.png");
         const params = this.TO_MAIN_MENU_BUTTON;
+        const textureButton = LoaderManager.instance.getResourcesByName(params.texture).texture;
         const exitToMenuButton = new ButtonWithText(textureButton, params.text, params.style);
         exitToMenuButton.setTextCenterPositionOffset(params.xOffset, params.yOffset);
         exitToMenuButton.position.set(params.x, params.y);
