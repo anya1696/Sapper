@@ -5,10 +5,6 @@ import SapperGameController from "../conrollers/SapperGameController";
 export const BOMB_VALUE = -1;
 
 export default class SapperGameModel {
-    set tilesView(value: IViewTile[]) {
-        this._tilesView = value;
-    }
-
     set isPaused(value: boolean) {
         this._isPaused = value;
     }
@@ -53,8 +49,6 @@ export default class SapperGameModel {
 
     private _flagedAmount: int = 0;
 
-    //gameView: IGameView | null;
-
     get isPaused(): boolean {
         return this._isPaused;
     }
@@ -83,10 +77,6 @@ export default class SapperGameModel {
         this._amountOpenedTile = 0;
 
         this.generateGridMatrix();
-
-        //Указание методов с нужными биндами
-        this.pauseGame = this.pauseGame.bind(this);
-        this.continueGame = this.continueGame.bind(this);
     }
 
     generateGridMatrix(): void {
@@ -137,10 +127,13 @@ export default class SapperGameModel {
         return matrix[xForCheck] && matrix[xForCheck][yForCheck] != undefined && matrix[xForCheck][yForCheck] === BOMB_VALUE;
     }
 
-    openViewTile(tileView: IViewTile): void {
+    openTile(tileView: IViewTile): void {
         if (tileView.isOpen() || this._gameEnded) return;
 
-        tileView.openTile();
+        const rowNumber = tileView.getRow();
+        const colNumber = tileView.getCol();
+
+        SapperGameController.instance.openViewTile(rowNumber, colNumber);
 
         if (this._amountOpenedTile === this._allSaveAmount) {
             this.winGame();
@@ -150,14 +143,11 @@ export default class SapperGameModel {
             return;
         }
 
-        const rowNumber = tileView.getRow();
-        const colNumber = tileView.getCol();
-
         for (let i = rowNumber - 1; i <= rowNumber + 1; i++) {
             for (let j = colNumber - 1; j <= colNumber + 1; j++) {
                 let tile = this.findTileByRowCol(i, j);
                 if (tile) {
-                    this.openViewTile(tile);
+                    this.openTile(tile);
                 }
             }
         }

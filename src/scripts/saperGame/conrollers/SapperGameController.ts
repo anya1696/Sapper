@@ -1,7 +1,6 @@
 import SapperGameModel from "../models/SapperGameModel";
 import SapperGameArea from "../views/SapperGameArea";
 import BaseGridTile from "../../elements/gridTileElements/BaseGridTile";
-import IViewTile from "../../interfaces/IViewTile";
 
 export default class SapperGameController {
     private sapperGameView: SapperGameArea;
@@ -13,6 +12,7 @@ export default class SapperGameController {
         this.sapperGameView = sapperGameView;
         this.sapperGameModel = sapperGameModel;
 
+       //Указание методов с нужными биндами
         this.pauseGame = this.pauseGame.bind(this);
         this.continueGame = this.continueGame.bind(this);
     }
@@ -78,12 +78,18 @@ export default class SapperGameController {
         return this.sapperGameModel.bombAmount
     }
 
-    openViewTile(tileView: IViewTile): void {
-        this.sapperGameModel.openViewTile(tileView);
+    openViewTile(rowNumber:int , colNumber: int): void {
+        this.sapperGameView.openViewTile(rowNumber, colNumber);
+    }
+
+    onTileClick(tileView: BaseGridTile): void {
+        this.sapperGameModel.openTile(tileView);
     }
 
     getGameMatrix(): int[][] {
         return this.sapperGameModel.gameMatrix;
     }
+
+
 
 }

@@ -21,8 +21,6 @@ export default class BaseButton extends PIXI.Sprite {
         this.textureButtonDown = textureButtonDown ? textureButtonDown : this.generateDownTexture();
         this.textureButtonOver = textureButtonOver ? textureButtonOver : this.generateOverTexture();
 
-        console.log(this.textureButtonDown, this.textureButtonOver);
-
         this.anchor.set(0.5);
         this.buttonMode = true;
         this.interactive = true;

@@ -8,8 +8,11 @@ import WinScreen from "../../dialogs/WinScreen";
 import IGameView from "../../interfaces/IGameView";
 import InfoPanel from "./InfoPanel";
 import SapperGameController from "../conrollers/SapperGameController";
+import BaseGridTile from "../../elements/gridTileElements/BaseGridTile";
 
 export default class SapperGameArea extends PIXI.Container implements IGameView {
+    tileGrid: BaseGridTile[][] = [];
+
     PAUSE_BUTTON = {
         x: 480,
         y: 200,
@@ -24,16 +27,15 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
     private pauseScreen: PauseScreen | null = null;
     private winScreen: WinScreen | null = null;
     private infoPanel: InfoPanel | null = null;
+    private gameEnded: boolean = false;
+    private gamePaused: boolean = false;
 
     constructor() {
         super();
-
     }
 
-    startGame(gridMatrix: int[][]): void{
-        let grid = this.createGridTiles(gridMatrix);
-        this.addChild(grid);
-
+    startGame(gridMatrix: int[][]): void {
+        this.createGridTiles(gridMatrix);
         this.createPauseButton();
 
         this.infoPanel = new InfoPanel();
@@ -42,20 +44,24 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
 
     }
 
-    createGridTiles(gridMatrix: int[][]): PIXI.Container {
-        let grid = new PIXI.Container();
-        grid.name = "Game Field";
+    createGridTiles(gridMatrix: int[][]): void {
+        let gridContainer = new PIXI.Container();
+        gridContainer.name = "Game Field";
         const tileFab = new GridTileFab();
+        let tileGrid: BaseGridTile[][] = [];
 
         for (let i = 0; i < gridMatrix.length; i++) {
             const row = gridMatrix[i];
+            tileGrid.push([]);
             for (let j = 0; j < row.length; j++) {
                 const tile = tileFab.getTileByType(gridMatrix[i][j], i, j);
-                grid.addChild(tile);
+                gridContainer.addChild(tile);
+                tileGrid[i][j] = tile;
                 tile.position.set(config.tilesParams.tileWidth * i, config.tilesParams.tileHeight * j);
             }
         }
-        return grid;
+        this.addChild(gridContainer);
+        this.tileGrid = tileGrid;
     }
 
     createPauseButton(): void {
@@ -92,22 +98,31 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
     }
 
     closeGame(): void {
+        this.gameEnded = true;
         this.destroy();
     }
 
     continueGame(): void {
+        if (!this.gamePaused)
+            return;
+        this.gamePaused = false;
         this.hidePauseScreen();
     }
 
     loseGame(): void {
+        if (this.gameEnded)
+            return;
+        this.gameEnded = true;
         this.showLoseScreen();
     }
 
     pauseGame(): void {
+        this.gamePaused = true;
         this.showPauseScreen();
     }
 
     winGame(): void {
+        this.gameEnded = true;
         this.showWinScreen();
     }
 
@@ -121,6 +136,10 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
         if (!this.infoPanel)
             return;
         this.infoPanel.updateOpenTiles(openedTileAmount);
+    }
+
+    openViewTile(rowNumber: int, colNumber: int) {
+        this.tileGrid[colNumber][rowNumber].openTile();
     }
 
 }

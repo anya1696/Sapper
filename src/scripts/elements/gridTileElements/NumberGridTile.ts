@@ -28,7 +28,7 @@ export default class NumberGridTile extends BaseGridTile {
     }
 
     onClick(): void {
-        SapperGameController.instance.openViewTile(this);
+        SapperGameController.instance.onTileClick(this);
         super.onClick();
     }
 
