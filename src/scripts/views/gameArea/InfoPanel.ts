@@ -51,7 +51,6 @@ export default class InfoPanel extends PIXI.Container {
             this.updateCounterTextTween.kill();
         this.updateCounterTextTween = TweenLite.to(this, 0.7, {
             shownOpenedTile: this.openedTiles, onUpdate: () => {
-                console.log(this.shownOpenedTile);
                 this.openCounter.setText(Math.ceil(this.shownOpenedTile) + " / " + this.allTiles);
             }
         })

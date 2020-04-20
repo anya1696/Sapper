@@ -40,7 +40,6 @@ export default class LoadManager {
             const resource = resources[resourceName];
             this.sprites[resourceName] = resource;
         }
-        console.log(resources);
     }
 
     setLoadCallback(callback: () => void) {

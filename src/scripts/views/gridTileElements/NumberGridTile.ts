@@ -22,7 +22,6 @@ export default class NumberGridTile extends BaseGridTile {
     private _number: number;
 
     constructor(number: number, colNumber: number, rowNumber: number) {
-        //super(PIXI.Texture.from(LoadManager.instance.getResourcesByName("number_"+ number)), colNumber, rowNumber);
         super(LoadManager.instance.getResourcesByName(textures[number]).texture, colNumber, rowNumber);
         this._number = number;
     }
