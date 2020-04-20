@@ -15,7 +15,7 @@ export default class BombGridTile extends BaseGridTile {
 
     openTile(): void {
         super.openTile();
-        if (this.opened)
+        if (this.fsm.is("opened"))
             SapperGameController.instance.loseGame();
     }
 }

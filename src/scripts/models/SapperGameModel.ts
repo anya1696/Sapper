@@ -184,16 +184,16 @@ export default class SapperGameModel {
         this._isPaused = false;
     }
 
-    changeFlagedAmount(flagedAmount: number): void {
+    changeFlaggedAmount(flagedAmount: number): void {
         this.flagedAmount = flagedAmount;
     }
 
-    incFlagedAmount(): void {
-        this.changeFlagedAmount(this.flagedAmount + 1);
+    incFlaggedAmount(): void {
+        this.changeFlaggedAmount(this.flagedAmount + 1);
     }
 
-    decFlagedAmount(): void {
-        this.changeFlagedAmount(this.flagedAmount - 1);
+    decFlaggedAmount(): void {
+        this.changeFlaggedAmount(this.flagedAmount - 1);
     }
 
     incOpenedAmount(): void {

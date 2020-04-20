@@ -3,6 +3,7 @@
     "screenWidth": 640,
     "screenHeight": 480
   },
+
   "tilesParams": {
     "tileWidth": 40,
     "tileHeight": 40,
@@ -10,6 +11,7 @@
     "boardHeight": 9,
     "totalMines": 10
   },
+
   "tilesTextures": {
     "playButton":"https://img.icons8.com/dusk/256/000000/refresh.png",
     "bomb": "https://img.icons8.com/plasticine/100/000000/naval-mine.png",
@@ -28,5 +30,17 @@
     "buttonToMainMenu":"https://img.icons8.com/dusk/64/000000/handshake.png",
     "pauseButton":"https://img.icons8.com/dusk/64/000000/hand.png",
     "continueGameButton":"https://img.icons8.com/dusk/64/000000/ok-hand.png"
-  }
+  },
+
+  "tileFsmConfig":{
+    "init": "closed",
+    "transitions": [
+      {"name": "toFlag",     "from": "closed",                 "to": "flaged" },
+      {"name": "toOpen",     "from": ["questioned", "closed"], "to": "opened" },
+      {"name": "toClose",    "from": "",                       "to": "closed" },
+      {"name": "toQuestion", "from": "flaged",                 "to": "questioned" },
+      {"name": "rightClick", "from": "closed",                 "to": "flagged"},
+      {"name": "rightClick", "from": "flagged",                "to": "questioned"},
+      {"name": "rightClick", "from": "questioned",             "to": "closed"}
+    ]}
 }

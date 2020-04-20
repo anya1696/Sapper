@@ -32,7 +32,7 @@ export default class NumberGridTile extends BaseGridTile {
     }
 //
     shouldProvokeRecursive(): boolean {
-        return this.number === 0 && !this.flaged;
+        return this.number === 0 && !this.fsm.is("flagged");
     }
 
 }

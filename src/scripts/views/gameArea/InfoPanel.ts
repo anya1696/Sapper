@@ -21,7 +21,7 @@ export default class InfoPanel extends PIXI.Container {
     };
 
     private shownOpenedTile: number = 0;
-    private updateCounterTextTween: gsap.TweenLite | null = null;
+    private updateCounterTextTween: any | null = null;
 
     constructor() {
         super();

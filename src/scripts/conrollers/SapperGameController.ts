@@ -23,17 +23,17 @@ export default class SapperGameController {
         this.sapperGameView.onGameOpenTile(this.sapperGameModel.amountOpenedTile);
     }
 
-    incFlagedAmount(): void {
-        this.sapperGameModel.incFlagedAmount();
+    incFlaggedAmount(): void {
+        this.sapperGameModel.incFlaggedAmount();
         this.updateFlagCounter();
     }
 
-    decFlagedAmount(): void {
-        this.sapperGameModel.decFlagedAmount();
+    decFlaggedAmount(): void {
+        this.sapperGameModel.decFlaggedAmount();
         this.updateFlagCounter();
     }
 
-    getFlagedAmount(): number {
+    getFlaggedAmount(): number {
         return this.sapperGameModel.flagedAmount;
     }
 
@@ -42,7 +42,7 @@ export default class SapperGameController {
     }
 
     updateFlagCounter(): void {
-        this.sapperGameView.onGameFlagChange(this.getFlagedAmount());
+        this.sapperGameView.onGameFlagChange(this.getFlaggedAmount());
     }
 
     winGame(): void {

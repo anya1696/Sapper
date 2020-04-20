@@ -4,8 +4,13 @@ import IViewTile from "../interfaces/IViewTile";
 import SapperGameController from "../../conrollers/SapperGameController";
 import BaseButton from "../elements/buttons/BaseButton";
 import LoadManager from "../../managers/LoadManager";
+import StateMachine = require("@taoqf/javascript-state-machine");
 
 export default abstract class BaseGridTile extends PIXI.Container implements IViewTile {
+    get fsm(): StateMachine {
+        return this._fsm;
+    }
+
     TEXTURES = {
         close: "close",
         flag: "flag",
@@ -15,6 +20,7 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
     private buttonCloseView: BaseButton;
     private buttonFlagView: BaseButton;
     private buttonQuestionView: BaseButton;
+    private _fsm: StateMachine;
 
     get colNumber(): number {
         return this._colNumber;
@@ -30,11 +36,6 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
 
     openTexture: PIXI.Texture;
 
-    flaged: boolean;
-    opened: boolean;
-    closed: boolean;
-    questioned: boolean;
-
     private spriteView: PIXI.Sprite;
     private _rowNumber: number;
     private _colNumber: number;
@@ -49,8 +50,11 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         this.questionTexture = LoadManager.instance.getResourcesByName(this.TEXTURES.question).texture;
 
         this.buttonCloseView = this.getButton(this.closeTexture);
+        this.buttonCloseView.name = "buttonCloseView";
         this.buttonFlagView = this.getButton(this.flagTexture);
+        this.buttonFlagView.name = "buttonFlagView";
         this.buttonQuestionView = this.getButton(this.questionTexture);
+        this.buttonQuestionView.name = "buttonQuestionView";
 
         this.spriteView = PIXI.Sprite.from(this.openTexture);
         this.spriteView.visible = false;
@@ -62,13 +66,6 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         this._colNumber = colNumber;
         this._rowNumber = rowNumber;
 
-        this.flaged = false;
-        this.opened = false;
-        this.closed = true;
-        this.questioned = false;
-
-        this.setCloseState();
-
         SapperGameController.instance.registerTile(this);
         this.on('click', this.onClick);
         this.on('rightclick', this.onRightClick);
@@ -76,60 +73,23 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         this.interactive = true;
 
         this.addChild(this.spriteView);
-    }
 
-    setCloseState(): void {
-        this.showButtonCloseView();
+        // @ts-ignore
+        this._fsm = new StateMachine(config.tileFsmConfig);
 
-        this.flaged = false;
-        this.opened = false;
-        this.closed = true;
-        this.questioned = false;
-    }
+        this._fsm.observe('onClosed', this.onCloseState.bind(this));
+        this._fsm.observe('onFlagged', this.onFlagState.bind(this));
+        this._fsm.observe('onOpened', this.onOpenState.bind(this));
+        this._fsm.observe('onQuestioned', this.onQuestionState.bind(this));
 
-    setFlagState(): void {
-        if (!(this.closed || !this.questioned)) {
-            return;
-        }
-
-        this.showButtonFlagView();
-
-        this.spriteView.texture = this.flagTexture;
-        this.flaged = true;
-        this.opened = false;
-        this.closed = false;
-        this.questioned = false;
-        SapperGameController.instance.incFlagedAmount();
-    }
-
-    setQuestionState(): void {
-        if (!this.flaged) {
-            return;
-        }
-
-        this.showButtonQuestionView();
-
-        SapperGameController.instance.decFlagedAmount();
-        this.spriteView.texture = this.questionTexture;
-
-        this.flaged = false;
-        this.opened = false;
-        this.closed = false;
-        this.questioned = true;
+        this.onCloseState();
     }
 
     setOpenState(): void {
-        if (this.opened || this.flaged) {
+        if (!this._fsm.can("toOpen"))
             return;
-        }
-        this.spriteView.texture = this.openTexture;
-        this.showSpriteOpenView();
-
-        this.flaged = false;
-        this.opened = true;
-        this.closed = false;
-        this.questioned = false;
-        SapperGameController.instance.incOpenedAmount();
+        // @ts-ignore
+        this._fsm.toOpen();
     }
 
     openTile(): void {
@@ -137,17 +97,14 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
     }
 
     onClick(): void {
-
     }
 
     onRightClick(): void {
-        if (this.closed) {
-            this.setFlagState();
-        } else if (this.flaged) {
-            this.setQuestionState();
-        } else if (this.questioned) {
-            this.setCloseState();
+        if (!this.fsm.can("rightClick")) {
+            return;
         }
+        // @ts-ignore
+        this.fsm.rightClick();
     }
 
     shouldProvokeRecursive(): boolean {
@@ -163,7 +120,7 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
     }
 
     isOpen(): boolean {
-        return this.opened;
+        return this.fsm.is("opened");
     }
 
     showButtonCloseView(): void {
@@ -200,5 +157,25 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         button.width = config.tilesParams.tileWidth;
         this.addChild(button);
         return button;
+    }
+
+    onFlagState(): void {
+        this.showButtonFlagView();
+        SapperGameController.instance.incFlaggedAmount();
+    }
+
+    onOpenState(): void {
+        this.spriteView.texture = this.openTexture;
+        this.showSpriteOpenView();
+        SapperGameController.instance.incOpenedAmount();
+    }
+
+    onCloseState(): void {
+        this.showButtonCloseView();
+    }
+
+    onQuestionState(): void {
+        this.showButtonQuestionView();
+        SapperGameController.instance.decFlaggedAmount();
     }
 }
