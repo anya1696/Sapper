@@ -9,7 +9,7 @@ export default interface IGameView {
 
     winGame(): void;
 
-    onGameOpenTile(openedTileAmount: int): void
+    onGameOpenTile(openedTileAmount: number): void
 
-    onGameFlagChange(flagTileAmount: int): void
+    onGameFlagChange(flagTileAmount: number): void
 }

@@ -1,6 +1,7 @@
-import TextLabel from "../../elements/TextLabel";
+import TextLabel from "../elements/TextLabel";
 import * as PIXI from "pixi.js";
-import SapperGameController from "../conrollers/SapperGameController";
+import SapperGameController from "../../conrollers/SapperGameController";
+import {TweenLite} from "gsap";
 
 export default class InfoPanel extends PIXI.Container {
     private openCounter: TextLabel;
@@ -19,12 +20,14 @@ export default class InfoPanel extends PIXI.Container {
         y: 100
     };
 
+    private shownOpenedTile: number = 0;
+    private updateCounterTextTween: gsap.TweenLite | null = null;
+
     constructor() {
         super();
         this.openCounter = this.getCounterOpenTiles();
         this.addChild(this.openCounter);
         this.updateAllTiles(SapperGameController.instance.getAllNumberTiles());
-
         this.flagedCounter = this.getCounterFlagedTiles();
         this.addChild(this.flagedCounter);
     }
@@ -44,24 +47,31 @@ export default class InfoPanel extends PIXI.Container {
     }
 
     updateCounterText(): void {
-        this.openCounter.setText(this.openedTiles + " / " + this.allTiles);
+        if (this.updateCounterTextTween)
+            this.updateCounterTextTween.kill();
+        this.updateCounterTextTween = TweenLite.to(this, 0.7, {
+            shownOpenedTile: this.openedTiles, onUpdate: () => {
+                console.log(this.shownOpenedTile);
+                this.openCounter.setText(Math.ceil(this.shownOpenedTile) + " / " + this.allTiles);
+            }
+        })
     }
 
     updateFlagCounterText(): void {
         this.flagedCounter.setText("flags left: " + this.flagedTiles);
     }
 
-    updateOpenTiles(currentOpenTiles: int): void {
+    updateOpenTiles(currentOpenTiles: number): void {
         this.openedTiles = currentOpenTiles;
         this.updateCounterText();
     }
 
-    updateFlagTiles(flagedTiles: int): void {
+    updateFlagTiles(flagedTiles: number): void {
         this.flagedTiles = flagedTiles;
         this.updateFlagCounterText();
     }
 
-    updateAllTiles(allTiles: int): void {
+    updateAllTiles(allTiles: number): void {
         this.allTiles = allTiles;
         this.updateCounterText();
     }

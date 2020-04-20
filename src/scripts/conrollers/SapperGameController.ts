@@ -1,18 +1,19 @@
 import SapperGameModel from "../models/SapperGameModel";
-import SapperGameArea from "../views/SapperGameArea";
-import BaseGridTile from "../../elements/gridTileElements/BaseGridTile";
+import SapperGameArea from "../views/gameArea/SapperGameArea";
+import BaseGridTile from "../views/gridTileElements/BaseGridTile";
 
 export default class SapperGameController {
     private sapperGameView: SapperGameArea;
     private sapperGameModel: SapperGameModel;
 
     public static instance: SapperGameController;
+    private onCloseGameCallback: (() => void) | null = null;
 
     constructor(sapperGameView: SapperGameArea, sapperGameModel: SapperGameModel) {
         this.sapperGameView = sapperGameView;
         this.sapperGameModel = sapperGameModel;
 
-       //Указание методов с нужными биндами
+        //Указание методов с нужными биндами
         this.pauseGame = this.pauseGame.bind(this);
         this.continueGame = this.continueGame.bind(this);
     }
@@ -32,15 +33,15 @@ export default class SapperGameController {
         this.updateFlagCounter();
     }
 
-    getFlagedAmount(): int {
+    getFlagedAmount(): number {
         return this.sapperGameModel.flagedAmount;
     }
 
-    getAllNumberTiles(): int {
+    getAllNumberTiles(): number {
         return this.sapperGameModel.allSaveAmount;
     }
 
-    updateFlagCounter(): void  {
+    updateFlagCounter(): void {
         this.sapperGameView.onGameFlagChange(this.getFlagedAmount());
     }
 
@@ -56,6 +57,8 @@ export default class SapperGameController {
 
     closeGame(): void {
         this.sapperGameView.closeGame();
+        if (this.onCloseGameCallback)
+            this.onCloseGameCallback();
     }
 
     pauseGame(): void {
@@ -73,12 +76,12 @@ export default class SapperGameController {
     registerTile(tile: BaseGridTile): void {
         this.sapperGameModel.registerTile(tile);
     }
-    
-    getBombAmount(): int{
+
+    getBombAmount(): number {
         return this.sapperGameModel.bombAmount
     }
 
-    openViewTile(rowNumber:int , colNumber: int): void {
+    openViewTile(rowNumber: number, colNumber: number): void {
         this.sapperGameView.openViewTile(rowNumber, colNumber);
     }
 
@@ -86,10 +89,15 @@ export default class SapperGameController {
         this.sapperGameModel.openTile(tileView);
     }
 
-    getGameMatrix(): int[][] {
+    getGameMatrix(): number[][] {
         return this.sapperGameModel.gameMatrix;
     }
 
+    setOnCloseGameCallback(callback: () => void): void {
+        this.onCloseGameCallback = callback;
+    }
 
-
+    startGame(): void{
+        this.sapperGameView.startGame(this.getGameMatrix());
+    }
 }

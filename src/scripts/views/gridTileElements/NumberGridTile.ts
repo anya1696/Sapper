@@ -1,6 +1,6 @@
 import BaseGridTile from "./BaseGridTile";
-import SapperGameController from "../../saperGame/conrollers/SapperGameController";
-import LoaderManager from "../../managers/LoaderManager";
+import SapperGameController from "../../conrollers/SapperGameController";
+import LoadManager from "../../managers/LoadManager";
 
 const textures = [
     "number_0",
@@ -15,15 +15,15 @@ const textures = [
 ];
 
 export default class NumberGridTile extends BaseGridTile {
-    get number(): int {
+    get number(): number {
         return this._number;
     }
 
-    private _number: int;
+    private _number: number;
 
-    constructor(number: int, colNumber: int, rowNumber: int) {
-        //super(PIXI.Texture.from(LoaderManager.instance.getResourcesByName("number_"+ number)), colNumber, rowNumber);
-        super(LoaderManager.instance.getResourcesByName(textures[number]).texture, colNumber, rowNumber);
+    constructor(number: number, colNumber: number, rowNumber: number) {
+        //super(PIXI.Texture.from(LoadManager.instance.getResourcesByName("number_"+ number)), colNumber, rowNumber);
+        super(LoadManager.instance.getResourcesByName(textures[number]).texture, colNumber, rowNumber);
         this._number = number;
     }
 

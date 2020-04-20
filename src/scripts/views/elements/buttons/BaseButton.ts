@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import {spriteToTexture} from "../../app";
+import {spriteToTexture} from "../../../app";
 
 export default class BaseButton extends PIXI.Sprite {
     TINTS = {

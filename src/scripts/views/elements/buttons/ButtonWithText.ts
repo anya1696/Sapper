@@ -5,17 +5,19 @@ import TextLabel from "../TextLabel";
 export default class ButtonWithText extends PIXI.Container {
     textLabel: TextLabel | null = null;
     private button: BaseButton;
-    private xCenterOffset: int = 0;
-    private yCenterOffset: int = 0;
+    private xCenterOffset: number = 0;
+    private yCenterOffset: number = 0;
 
     constructor(texture: PIXI.Texture, text: string | undefined, style: PIXI.TextStyle | undefined) {
         super();
+
         this.button = new BaseButton(texture, undefined, undefined);
         this.addChild(this.button);
-        this.createTextLabel(text, style);
+
+        this.addTextLabel(text, style);
     }
 
-    createTextLabel(text: string | undefined, style: PIXI.TextStyle | undefined): void {
+    addTextLabel(text: string | undefined, style: PIXI.TextStyle | undefined) {
         text = text || "";
         let textLabel = new TextLabel(text, style);
         this.textLabel = textLabel;
@@ -23,7 +25,7 @@ export default class ButtonWithText extends PIXI.Container {
         this.addChild(textLabel);
     }
 
-    setTextCenterPositionOffset(xOffset: int | undefined, yOffset: int | undefined): void {
+    setTextCenterPositionOffset(xOffset: number | undefined, yOffset: number | undefined): void {
         if (xOffset !== undefined) this.xCenterOffset = xOffset;
         if (yOffset !== undefined) this.yCenterOffset = yOffset;
         if (!this.textLabel)
@@ -42,14 +44,13 @@ export default class ButtonWithText extends PIXI.Container {
         let textLabel = this.textLabel;
         if (!textLabel)
             return;
-
         textLabel.position.set(
             (-textLabel.width) / 2 + this.xCenterOffset,
             (-textLabel.height) / 2 + this.yCenterOffset);
     }
 
-    onClick(callBack: any): void {
-        // Специально клик только по кнопке, а не по кнопке и его тесту
-        this.button.on('click', callBack)
+    addClickHandler(callback: () => void): void {
+        // Специально клик только по кнопке, а не по кнопке и выезжающему за ее пределы тесту
+        this.button.on('click', callback)
     }
 }

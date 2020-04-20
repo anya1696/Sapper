@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import IDialog from "../interfaces/IDialog";
 import {TweenLite} from "gsap";
-import {APP_HEIGHT, APP_WIDTH} from "../app";
+import {APP_HEIGHT, APP_WIDTH} from "../../app";
 
 export default class BaseDialog extends PIXI.Container implements IDialog {
     private background: PIXI.Sprite;

@@ -1,8 +1,10 @@
 import * as PIXI from 'pixi.js'
-import { FpsMeter } from './fps-meter';
-import MainMenuScreen from "./mainMenu/MainMenuScreen";
+import {FpsMeter} from './fps-meter';
+import MainScreen from "./views/mainMenu/MainScreen";
 
 window.PIXI = PIXI;
+
+// Бойлер плейт найтроек PIXI + TS + Webpack, https://github.com/yahiko00/PixiProject
 
 interface EngineParams {
     containerId: string,
@@ -33,7 +35,9 @@ class Engine {
         this.graphics = new PIXI.Graphics();
         this.fpsMax = params.fpsMax;
 
-        this.stage.on("mousedown", (e:any) => { console.log('stage', e.originalEvent.button, e.originalEvent) });
+        this.stage.on("mousedown", (e: any) => {
+            console.log('stage', e.originalEvent.button, e.originalEvent)
+        });
 
         this.container = params.containerId ? document.getElementById(params.containerId) || document.body : document.body;
         this.container.appendChild(this.renderer.view);
@@ -52,7 +56,7 @@ const engine = new Engine({
 
 // @ts-ignore
 // Отключение контекстного меню для нормальной обработки райтклика
-window.document.body.oncontextmenu = function(e) {
+window.document.body.oncontextmenu = function (e) {
     e.preventDefault();
 };
 
@@ -85,7 +89,7 @@ function create() {
         fpsMeterItem.innerHTML = 'FPS: ' + fpsMeter.getFrameRate().toFixed(2).toString();
     });
 
-    let mainMenuScreen = new MainMenuScreen();
+    let mainMenuScreen = new MainScreen();
     engine.stage.addChild(mainMenuScreen);
 
     setInterval(update, 1000.0 / engine.fpsMax);

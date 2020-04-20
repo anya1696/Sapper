@@ -1,9 +1,9 @@
 export default interface IViewTile {
     shouldProvokeRecursive(): boolean;
 
-    getRow(): int;
+    getRow(): number;
 
-    getCol(): int;
+    getCol(): number;
 
     openTile(): void;
 

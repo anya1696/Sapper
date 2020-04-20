@@ -1,12 +1,12 @@
 import * as PIXI from "pixi.js";
-import config from "../config/config.json";
+import config from "../../config/config.json";
 
-export default class LoaderManager {
+export default class LoadManager {
     loader: PIXI.Loader = new PIXI.Loader();
     sprites: any = {};
     onBaseLoadCallback: (() => void) | null = null;
 
-    static instance: LoaderManager;
+    static instance: LoadManager;
 
     constructor() {
 
@@ -43,7 +43,7 @@ export default class LoaderManager {
         console.log(resources);
     }
 
-    setBaseLoadCallback(callback: () => void) {
+    setLoadCallback(callback: () => void) {
         this.onBaseLoadCallback = callback;
     }
 

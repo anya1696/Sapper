@@ -1,5 +1,5 @@
-import BaseGridTile from "../../elements/gridTileElements/BaseGridTile";
-import IViewTile from "../../interfaces/IViewTile";
+import BaseGridTile from "../views/gridTileElements/BaseGridTile";
+import IViewTile from "../views/interfaces/IViewTile";
 import SapperGameController from "../conrollers/SapperGameController";
 
 export const BOMB_VALUE = -1;
@@ -17,53 +17,53 @@ export default class SapperGameModel {
         this._gameEnded = value;
     }
 
-    get allSaveAmount(): int {
+    get allSaveAmount(): number {
         return this._allSaveAmount;
     }
 
-    set amountOpenedTile(value: int) {
+    set amountOpenedTile(value: number) {
         this._amountOpenedTile = value;
     }
 
-    get bombAmount(): int {
+    get bombAmount(): number {
         return this._bombAmount;
     }
 
-    get flagedAmount(): int {
+    get flagedAmount(): number {
         return this._flagedAmount;
     }
 
-    set flagedAmount(value: int) {
+    set flagedAmount(value: number) {
         this._flagedAmount = value;
     }
 
-    private _allSaveAmount: int;
-    private _amountOpenedTile: int = 0;
+    private _allSaveAmount: number;
+    private _amountOpenedTile: number = 0;
 
-    private matrixWidth: int;
-    private matrixHeight: int;
-    private _bombAmount: int;
+    private matrixWidth: number;
+    private matrixHeight: number;
+    private _bombAmount: number;
     private _tilesView: IViewTile[];
     private _gameEnded: boolean;
     private _isPaused: boolean = false;
 
-    private _flagedAmount: int = 0;
+    private _flagedAmount: number = 0;
 
     get isPaused(): boolean {
         return this._isPaused;
     }
 
-    get amountOpenedTile(): int {
+    get amountOpenedTile(): number {
         return this._amountOpenedTile;
     }
 
-    get gameMatrix(): int[][] {
+    get gameMatrix(): number[][] {
         return this._gameMatrix;
     }
 
-    private _gameMatrix: int[][] = [];
+    private _gameMatrix: number[][] = [];
 
-    constructor(bombAmount: int, matrixWidth: int, matrixHeight: int) {
+    constructor(bombAmount: number, matrixWidth: number, matrixHeight: number) {
         this._bombAmount = bombAmount;
         this.matrixWidth = matrixWidth;
         this.matrixHeight = matrixHeight;
@@ -81,7 +81,7 @@ export default class SapperGameModel {
 
     generateGridMatrix(): void {
         for (let i = 0; i < this.matrixHeight; i++) {
-            let row: int[] = [];
+            let row: number[] = [];
             this._gameMatrix.push(row);
         }
 
@@ -110,7 +110,7 @@ export default class SapperGameModel {
         }
     }
 
-    countNealestBomb(x: int, y: int): int {
+    countNealestBomb(x: number, y: number): number {
         let bombAmount = 0;
 
         for (let i = x - 1; i <= x + 1; i++) {
@@ -122,7 +122,7 @@ export default class SapperGameModel {
         return bombAmount;
     }
 
-    isBomb(xForCheck: int, yForCheck: int): boolean {
+    isBomb(xForCheck: number, yForCheck: number): boolean {
         let matrix = this._gameMatrix;
         return matrix[xForCheck] && matrix[xForCheck][yForCheck] != undefined && matrix[xForCheck][yForCheck] === BOMB_VALUE;
     }
@@ -157,7 +157,7 @@ export default class SapperGameModel {
         this._tilesView.push(tile);
     }
 
-    findTileByRowCol(rowNumber: int, colNumber: int): IViewTile | null {
+    findTileByRowCol(rowNumber: number, colNumber: number): IViewTile | null {
         for (let tile of this._tilesView) {
             if (tile.getRow() === rowNumber && tile.getCol() === colNumber)
                 return tile;
@@ -184,7 +184,7 @@ export default class SapperGameModel {
         this._isPaused = false;
     }
 
-    changeFlagedAmount(flagedAmount: int): void {
+    changeFlagedAmount(flagedAmount: number): void {
         this.flagedAmount = flagedAmount;
     }
 

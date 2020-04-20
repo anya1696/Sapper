@@ -1,8 +1,8 @@
 import * as PIXI from "pixi.js";
 import BaseDialog from "./BaseDialog";
 import ButtonWithText from "../elements/buttons/ButtonWithText";
-import SapperGameController from "../saperGame/conrollers/SapperGameController";
-import LoaderManager from "../managers/LoaderManager";
+import SapperGameController from "../../conrollers/SapperGameController";
+import LoadManager from "../../managers/LoadManager";
 
 export default class PauseScreen extends BaseDialog {
 
@@ -43,21 +43,21 @@ export default class PauseScreen extends BaseDialog {
 
     createContinueGameButton(): void {
         const params = this.CONT_GAME_BUTTON;
-        const textureButton = LoaderManager.instance.getResourcesByName(params.texture).texture;
+        const textureButton = LoadManager.instance.getResourcesByName(params.texture).texture;
         const continueGameButton = new ButtonWithText(textureButton, params.text, params.style);
         continueGameButton.setTextCenterPositionOffset(params.xOffset, params.yOffset);
         continueGameButton.position.set(params.x, params.y);
-        continueGameButton.onClick(this.onContinueGameClick.bind(this));
+        continueGameButton.addClickHandler(this.onContinueGameClick.bind(this));
         this.addChild(continueGameButton);
     }
 
     createExitToMenuButton(): void {
         const params = this.TO_MAIN_MENU_BUTTON;
-        const textureButton = LoaderManager.instance.getResourcesByName(params.texture).texture;
+        const textureButton = LoadManager.instance.getResourcesByName(params.texture).texture;
         const exitToMenuButton = new ButtonWithText(textureButton, params.text, params.style);
         exitToMenuButton.setTextCenterPositionOffset(params.xOffset, params.yOffset);
         exitToMenuButton.position.set(params.x, params.y);
-        exitToMenuButton.onClick(this.onExitToMenuClick.bind(this));
+        exitToMenuButton.addClickHandler(this.onExitToMenuClick.bind(this));
         this.addChild(exitToMenuButton);
     }
 

@@ -10,9 +10,9 @@ interface Interval {
     max: double;
 } // Interval
 
-type int = number;
+type number = number;
 type double = number;
-type Vec2i = [int, int];
+type Vec2i = [number, number];
 type Vec2f = [double, double];
-type Vec3i = [int, int, int];
+type Vec3i = [number, number, number];
 type Vec3f = [double, double, double];

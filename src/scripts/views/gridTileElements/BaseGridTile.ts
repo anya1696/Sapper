@@ -1,9 +1,9 @@
 import * as PIXI from "pixi.js";
-import config from "../../config/config.json";
-import IViewTile from "../../interfaces/IViewTile";
-import SapperGameController from "../../saperGame/conrollers/SapperGameController";
-import BaseButton from "../buttons/BaseButton";
-import LoaderManager from "../../managers/LoaderManager";
+import config from "../../../config/config.json";
+import IViewTile from "../interfaces/IViewTile";
+import SapperGameController from "../../conrollers/SapperGameController";
+import BaseButton from "../elements/buttons/BaseButton";
+import LoadManager from "../../managers/LoadManager";
 
 export default abstract class BaseGridTile extends PIXI.Container implements IViewTile {
     TEXTURES = {
@@ -16,11 +16,11 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
     private buttonFlagView: BaseButton;
     private buttonQuestionView: BaseButton;
 
-    get colNumber(): int {
+    get colNumber(): number {
         return this._colNumber;
     }
 
-    get rowNumber(): int {
+    get rowNumber(): number {
         return this._rowNumber;
     }
 
@@ -36,17 +36,17 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
     questioned: boolean;
 
     private spriteView: PIXI.Sprite;
-    private _rowNumber: int;
-    private _colNumber: int;
+    private _rowNumber: number;
+    private _colNumber: number;
 
-    constructor(texture: PIXI.Texture, colNumber: int, rowNumber: int) {
+    constructor(texture: PIXI.Texture, colNumber: number, rowNumber: number) {
         super();
 
         this.openTexture = texture;
 
-        this.closeTexture = LoaderManager.instance.getResourcesByName(this.TEXTURES.close).texture;
-        this.flagTexture = LoaderManager.instance.getResourcesByName(this.TEXTURES.flag).texture;
-        this.questionTexture = LoaderManager.instance.getResourcesByName(this.TEXTURES.question).texture;
+        this.closeTexture = LoadManager.instance.getResourcesByName(this.TEXTURES.close).texture;
+        this.flagTexture = LoadManager.instance.getResourcesByName(this.TEXTURES.flag).texture;
+        this.questionTexture = LoadManager.instance.getResourcesByName(this.TEXTURES.question).texture;
 
         this.buttonCloseView = this.getButton(this.closeTexture);
         this.buttonFlagView = this.getButton(this.flagTexture);
@@ -154,11 +154,11 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         return false;
     }
 
-    getCol(): int {
+    getCol(): number {
         return this.colNumber;
     }
 
-    getRow(): int {
+    getRow(): number {
         return this.rowNumber;
     }
 
