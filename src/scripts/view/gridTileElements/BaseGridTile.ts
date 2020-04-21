@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import config from "../../../config/config.json";
 import IViewTile from "../interfaces/IViewTile";
-import SapperGameController from "../../conrollers/SapperGameController";
+import SapperGameController from "../../conroller/SapperGameController";
 import BaseButton from "../elements/buttons/BaseButton";
 import LoadManager from "../../managers/LoadManager";
 import StateMachine = require("@taoqf/javascript-state-machine");
@@ -66,7 +66,6 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         this._colNumber = colNumber;
         this._rowNumber = rowNumber;
 
-        SapperGameController.instance.registerTile(this);
         this.on('click', this.onClick);
         this.on('rightclick', this.onRightClick);
 

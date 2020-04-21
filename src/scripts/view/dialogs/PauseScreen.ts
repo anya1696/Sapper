@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import BaseDialog from "./BaseDialog";
 import ButtonWithText from "../elements/buttons/ButtonWithText";
-import SapperGameController from "../../conrollers/SapperGameController";
+import SapperGameController from "../../conroller/SapperGameController";
 import LoadManager from "../../managers/LoadManager";
 
 export default class PauseScreen extends BaseDialog {
@@ -37,11 +37,13 @@ export default class PauseScreen extends BaseDialog {
 
         this.createShadow();
 
-        this.createContinueGameButton();
-        this.createExitToMenuButton();
+        this.addContinueGameButton();
+        this.addExitToMenuButton();
+
+        this.name = "PauseScreen";
     }
 
-    createContinueGameButton(): void {
+    addContinueGameButton(): void {
         const params = this.CONT_GAME_BUTTON;
         const textureButton = LoadManager.instance.getResourcesByName(params.texture).texture;
         const continueGameButton = new ButtonWithText(textureButton, params.text, params.style);
@@ -51,7 +53,7 @@ export default class PauseScreen extends BaseDialog {
         this.addChild(continueGameButton);
     }
 
-    createExitToMenuButton(): void {
+    addExitToMenuButton(): void {
         const params = this.TO_MAIN_MENU_BUTTON;
         const textureButton = LoadManager.instance.getResourcesByName(params.texture).texture;
         const exitToMenuButton = new ButtonWithText(textureButton, params.text, params.style);

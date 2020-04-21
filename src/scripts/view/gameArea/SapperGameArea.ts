@@ -6,9 +6,9 @@ import LoseScreen from "../dialogs/LoseScreen";
 import WinScreen from "../dialogs/WinScreen";
 import IGameView from "../interfaces/IGameView";
 import InfoPanel from "./InfoPanel";
-import SapperGameController from "../../conrollers/SapperGameController";
+import SapperGameController from "../../conroller/SapperGameController";
 import BaseGridTile from "../gridTileElements/BaseGridTile";
-import {BOMB_VALUE} from "../../models/SapperGameModel";
+import {BOMB_VALUE} from "../../model/SapperGameModel";
 import BombGridTile from "../gridTileElements/BombGridTile";
 import NumberGridTile from "../gridTileElements/NumberGridTile";
 
@@ -39,6 +39,7 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
 
     constructor() {
         super();
+        this.name = "SapperGameArea";
     }
 
     startGame(gridMatrix: number[][]): void {
@@ -50,6 +51,11 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
         this.addChild(this.infoPanel);
 
     }
+
+    /**
+     * Создание и добавление сетки тайлов сапера по матрице значений
+     * @member {number[][]} Матрица, с заранее сгенеренными значениями будующих тайлов
+     */
 
     createGridTiles(gridMatrix: number[][]): void {
         let gridContainer = new PIXI.Container();
@@ -147,8 +153,15 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
         this.infoPanel.updateOpenTiles(openedTileAmount);
     }
 
-    openViewTile(rowNumber: number, colNumber: number) {
-        this.tileGrid[colNumber][rowNumber].openTile();
+    openViewTile(rowNumber: number, colNumber: number): void {
+        if (this.tileGrid && this.tileGrid[colNumber] && this.tileGrid[colNumber][rowNumber])
+            this.tileGrid[colNumber][rowNumber].openTile();
+    }
+
+    getViewTileByCoord(rowNumber: number, colNumber: number): BaseGridTile | undefined {
+        if (this.tileGrid && this.tileGrid[colNumber] && this.tileGrid[colNumber][rowNumber])
+            return this.tileGrid[colNumber][rowNumber];
+        return undefined;
     }
 
     public getTileByType(type: any, rowNumber: number, colNumber: number) {

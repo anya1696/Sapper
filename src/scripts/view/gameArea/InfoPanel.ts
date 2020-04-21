@@ -1,6 +1,6 @@
 import TextLabel from "../elements/TextLabel";
 import * as PIXI from "pixi.js";
-import SapperGameController from "../../conrollers/SapperGameController";
+import SapperGameController from "../../conroller/SapperGameController";
 import {TweenLite} from "gsap";
 
 export default class InfoPanel extends PIXI.Container {

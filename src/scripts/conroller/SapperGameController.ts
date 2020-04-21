@@ -1,6 +1,6 @@
-import SapperGameModel from "../models/SapperGameModel";
-import SapperGameArea from "../views/gameArea/SapperGameArea";
-import BaseGridTile from "../views/gridTileElements/BaseGridTile";
+import SapperGameModel from "../model/SapperGameModel";
+import SapperGameArea from "../view/gameArea/SapperGameArea";
+import BaseGridTile from "../view/gridTileElements/BaseGridTile";
 
 export default class SapperGameController {
     private sapperGameView: SapperGameArea;
@@ -73,10 +73,6 @@ export default class SapperGameController {
         this.sapperGameView.continueGame();
     }
 
-    registerTile(tile: BaseGridTile): void {
-        this.sapperGameModel.registerTile(tile);
-    }
-
     getBombAmount(): number {
         return this.sapperGameModel.bombAmount
     }
@@ -97,7 +93,11 @@ export default class SapperGameController {
         this.onCloseGameCallback = callback;
     }
 
-    startGame(): void{
+    startGame(): void {
         this.sapperGameView.startGame(this.getGameMatrix());
+    }
+
+    getViewTileByCoord(rowNumber: number, colNumber: number): BaseGridTile | undefined {
+        return this.sapperGameView.getViewTileByCoord(rowNumber, colNumber);
     }
 }

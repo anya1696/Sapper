@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import {FpsMeter} from './fps-meter';
-import MainScreen from "./views/mainMenu/MainScreen";
+import MainScreen from "./view/mainMenu/MainScreen";
 
 window.PIXI = PIXI;
 
@@ -14,6 +14,8 @@ interface EngineParams {
 }
 
 let _renderer: PIXI.Renderer;
+let _pressContainer: PIXI.Container = new PIXI.Container();
+_pressContainer.name = "_pressContainer";
 
 class Engine {
     public container: HTMLElement;
@@ -107,11 +109,10 @@ function render() {
 }
 
 export function spriteToTexture(obj: PIXI.Sprite) {
-    let container = new PIXI.Container();
-    container.addChild(obj);
-
+    _pressContainer.addChild(obj);
     // @ts-ignore
-    const texture = _renderer.generateTexture(container);
+    const texture = _renderer.generateTexture(_pressContainer);
+    _pressContainer.removeChild(obj);
 
     return texture;
 }

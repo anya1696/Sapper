@@ -1,5 +1,5 @@
 import BaseGridTile from "./BaseGridTile";
-import SapperGameController from "../../conrollers/SapperGameController";
+import SapperGameController from "../../conroller/SapperGameController";
 import LoadManager from "../../managers/LoadManager";
 
 const textures = [

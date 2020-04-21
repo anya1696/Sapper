@@ -1,8 +1,8 @@
-import SapperGameModel from "../../models/SapperGameModel";
+import SapperGameModel from "../../model/SapperGameModel";
 import SapperGameArea from "../gameArea/SapperGameArea";
 import * as PIXI from 'pixi.js';
 import ButtonWithText from "../elements/buttons/ButtonWithText";
-import SapperGameController from "../../conrollers/SapperGameController";
+import SapperGameController from "../../conroller/SapperGameController";
 import LoadManager from "../../managers/LoadManager";
 
 export default class MainScreen extends PIXI.Container {
@@ -15,6 +15,8 @@ export default class MainScreen extends PIXI.Container {
         style: undefined,
         texture: "playButton"
     };
+    private sapperGameModel: SapperGameModel | null = null;
+    private gameArea: SapperGameArea | null = null;
 
     constructor() {
         super();
@@ -25,26 +27,37 @@ export default class MainScreen extends PIXI.Container {
         const textureButton = LoadManager.instance.getResourcesByName(this.PLAY_BUTTON.texture).texture;
         const playButton = new ButtonWithText(textureButton, this.PLAY_BUTTON.text, this.PLAY_BUTTON.style);
         playButton.position.set(this.PLAY_BUTTON.x, this.PLAY_BUTTON.y);
-        playButton.addClickHandler(this.onPlayButtonClick.bind(this));
+        playButton.addClickHandler(this.startNewGame.bind(this));
         this.mainMenu.addChild(playButton);
         this.addChild(this.mainMenu)
     }
 
-    onPlayButtonClick(): void {
-        let sapperGameModel = new SapperGameModel(10, 10, 10);
-        let gameArea = new SapperGameArea();
-        SapperGameController.instance = new SapperGameController(gameArea, sapperGameModel);
+    startNewGame(): void {
+        this.sapperGameModel = new SapperGameModel(10, 10, 10);
+        this.gameArea = new SapperGameArea();
+        SapperGameController.instance = new SapperGameController(this.gameArea, this.sapperGameModel);
         SapperGameController.instance.setOnCloseGameCallback(this.onReturnToMainMenu.bind(this));
         SapperGameController.instance.startGame();
-        this.addChild(gameArea);
+
+        this.addChild(this.gameArea);
         this.mainMenu.visible = false;
     }
 
-    onReturnToMainMenu(): void{
-        this.mainMenu.visible = true;
+    endGame(): void {
+        if (this.gameArea) {
+            this.removeChild(this.gameArea);
+            this.gameArea.destroy();
+        }
+
+        this.sapperGameModel = null;
     }
 
-    loadResources(){
+    onReturnToMainMenu(): void {
+        this.mainMenu.visible = true;
+        this.endGame();
+    }
+
+    loadResources() {
         LoadManager.instance = new LoadManager();
         LoadManager.instance.setLoadCallback(this.createPlayButton.bind(this));
         LoadManager.instance.addResourcesToLoadFromConfig();

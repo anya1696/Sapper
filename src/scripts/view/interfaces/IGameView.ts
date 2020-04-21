@@ -8,8 +8,4 @@ export default interface IGameView {
     continueGame(): void;
 
     winGame(): void;
-
-    onGameOpenTile(openedTileAmount: number): void
-
-    onGameFlagChange(flagTileAmount: number): void
 }

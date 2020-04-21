@@ -1,12 +1,11 @@
 import * as PIXI from "pixi.js";
 import BaseDialog from "./BaseDialog";
-import ButtonWithText from "../elements/buttons/ButtonWithText";
 import TextLabel from "../elements/TextLabel";
-import SapperGameController from "../../conrollers/SapperGameController";
+import ButtonWithText from "../elements/buttons/ButtonWithText";
+import SapperGameController from "../../conroller/SapperGameController";
 import LoadManager from "../../managers/LoadManager";
 
-export default class WinScreen extends BaseDialog {
-
+export default class LoseScreen extends BaseDialog {
     EXIT_TO_MENU_GAME_BUTTON = {
         x: 250,
         y: 300,
@@ -23,9 +22,9 @@ export default class WinScreen extends BaseDialog {
     TEXT_ELEMENT = {
         x: 100,
         y: 150,
-        text: "You win the game",
+        text: "You lost the game",
         style: new PIXI.TextStyle({
-            fill: "#8efc83",
+            fill: "#fc3968",
             fontFamily: "Arial Black",
             fontSize: 44
         })
@@ -35,12 +34,13 @@ export default class WinScreen extends BaseDialog {
         super();
 
         this.createShadow();
+        this.addExitToMenuButton();
+        this.addInfoText();
 
-        this.createExitToMenuButton();
-        this.createInfoText();
+        this.name = "LoseScreen";
     }
 
-    createExitToMenuButton(): void {
+    addExitToMenuButton(): void {
         const params = this.EXIT_TO_MENU_GAME_BUTTON;
         const textureButton = LoadManager.instance.getResourcesByName(params.texture).texture;
         const exitToMenuButton = new ButtonWithText(textureButton, params.text, params.style);
@@ -54,7 +54,7 @@ export default class WinScreen extends BaseDialog {
         SapperGameController.instance.closeGame();
     }
 
-    createInfoText(): void {
+    addInfoText(): void {
         const params = this.TEXT_ELEMENT;
         const textElement = new TextLabel(params.text, params.style);
         textElement.position.set(params.x, params.y);

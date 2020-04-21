@@ -1,6 +1,5 @@
-import BaseGridTile from "../views/gridTileElements/BaseGridTile";
-import IViewTile from "../views/interfaces/IViewTile";
-import SapperGameController from "../conrollers/SapperGameController";
+import IViewTile from "../view/interfaces/IViewTile";
+import SapperGameController from "../conroller/SapperGameController";
 
 export const BOMB_VALUE = -1;
 
@@ -43,7 +42,6 @@ export default class SapperGameModel {
     private matrixWidth: number;
     private matrixHeight: number;
     private _bombAmount: number;
-    private _tilesView: IViewTile[];
     private _gameEnded: boolean;
     private _isPaused: boolean = false;
 
@@ -71,8 +69,6 @@ export default class SapperGameModel {
         this._allSaveAmount = this.matrixWidth * this.matrixHeight - this._bombAmount;
 
         this._gameEnded = false;
-
-        this._tilesView = [];
 
         this._amountOpenedTile = 0;
 
@@ -145,24 +141,12 @@ export default class SapperGameModel {
 
         for (let i = rowNumber - 1; i <= rowNumber + 1; i++) {
             for (let j = colNumber - 1; j <= colNumber + 1; j++) {
-                let tile = this.findTileByRowCol(i, j);
+                let tile = SapperGameController.instance.getViewTileByCoord(i, j);
                 if (tile) {
                     this.openTile(tile);
                 }
             }
         }
-    }
-
-    registerTile(tile: BaseGridTile): void {
-        this._tilesView.push(tile);
-    }
-
-    findTileByRowCol(rowNumber: number, colNumber: number): IViewTile | null {
-        for (let tile of this._tilesView) {
-            if (tile.getRow() === rowNumber && tile.getCol() === colNumber)
-                return tile;
-        }
-        return null;
     }
 
     loseGame(): void {
