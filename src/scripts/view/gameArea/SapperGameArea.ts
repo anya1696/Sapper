@@ -43,7 +43,7 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
     }
 
     startGame(gridMatrix: number[][]): void {
-        this.createGridTiles(gridMatrix);
+        this.addGridTiles(gridMatrix);
         this.createPauseButton();
 
         this.infoPanel = new InfoPanel();
@@ -54,10 +54,10 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
 
     /**
      * Создание и добавление сетки тайлов сапера по матрице значений
-     * @member {number[][]} Матрица, с заранее сгенеренными значениями будующих тайлов
+     * @param {number[][]} gridMatrix Матрица, с заранее сгенеренными значениями будующих тайлов
      */
 
-    createGridTiles(gridMatrix: number[][]): void {
+    addGridTiles(gridMatrix: number[][]): void {
         let gridContainer = new PIXI.Container();
         gridContainer.name = "Game Field";
         let tileGrid: BaseGridTile[][] = [];
@@ -165,7 +165,6 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
     }
 
     public getTileByType(type: any, rowNumber: number, colNumber: number) {
-
         if (type === BOMB_VALUE) {
             return new BombGridTile(rowNumber, colNumber);
         } else {

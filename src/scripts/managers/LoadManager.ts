@@ -16,6 +16,10 @@ export default class LoadManager {
         this.loader.add(alias, src);
     }
 
+    /**
+     * Добавление в лоад всех текстур указанных в конфиге
+     */
+
     addResourcesToLoadFromConfig() {
         const tilesTextures: Record<string, string> = config.tilesTextures;
         for (const tileTexture in tilesTextures) {
@@ -42,9 +46,19 @@ export default class LoadManager {
         }
     }
 
+    /**
+     * Установить колбек, который  дополнительно вызовется после лоада
+     * @param {() => void} callback
+     */
+
     setLoadCallback(callback: () => void) {
         this.onBaseLoadCallback = callback;
     }
+
+    /**
+     * Получить загруженный ресурс по названию
+     * @param {name} name название, под которым был сохранен ресурс
+     */
 
     getResourcesByName(name: string) {
         return this.sprites[name];

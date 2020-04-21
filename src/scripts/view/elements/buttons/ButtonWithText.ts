@@ -25,6 +25,12 @@ export default class ButtonWithText extends PIXI.Container {
         this.addChild(textLabel);
     }
 
+    /**
+     * Установка смещения текста для центровки
+     * @param {number | undefined} xOffset смещение по х
+     * @param {number | undefined} yOffset смещение по y
+     */
+
     setTextCenterPositionOffset(xOffset: number | undefined, yOffset: number | undefined): void {
         if (xOffset !== undefined) this.xCenterOffset = xOffset;
         if (yOffset !== undefined) this.yCenterOffset = yOffset;
@@ -39,6 +45,10 @@ export default class ButtonWithText extends PIXI.Container {
         this.textLabel.setText(text);
         this.toCenterText();
     }
+
+    /**
+     * Перестановка текста в середину кнопки
+     */
 
     toCenterText(): void {
         let textLabel = this.textLabel;

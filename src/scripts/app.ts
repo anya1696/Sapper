@@ -108,6 +108,11 @@ function render() {
     fpsMeter.tick();
 }
 
+/**
+ * Преобразование спрайта в текстуру
+ * @param {PIXI.Sprite} obj номер строки
+ */
+
 export function spriteToTexture(obj: PIXI.Sprite) {
     _pressContainer.addChild(obj);
     // @ts-ignore

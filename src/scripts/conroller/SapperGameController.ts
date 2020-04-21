@@ -77,6 +77,12 @@ export default class SapperGameController {
         return this.sapperGameModel.bombAmount
     }
 
+    /**
+     * Выставить иконку в стейт "открыто"
+     * @param {number} rowNumber номер строки
+     * @param {number} colNumber номер колонки
+     */
+
     openViewTile(rowNumber: number, colNumber: number): void {
         this.sapperGameView.openViewTile(rowNumber, colNumber);
     }
@@ -84,6 +90,10 @@ export default class SapperGameController {
     onTileClick(tileView: BaseGridTile): void {
         this.sapperGameModel.openTile(tileView);
     }
+
+    /**
+     * Отдает матрицу значений для игрового поля
+     */
 
     getGameMatrix(): number[][] {
         return this.sapperGameModel.gameMatrix;

@@ -30,7 +30,7 @@ export default class NumberGridTile extends BaseGridTile {
         SapperGameController.instance.onTileClick(this);
         super.onClick();
     }
-//
+
     shouldProvokeRecursive(): boolean {
         return this.number === 0 && !this.fsm.is("flagged");
     }

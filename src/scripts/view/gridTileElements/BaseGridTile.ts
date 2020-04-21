@@ -106,6 +106,10 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         this.fsm.rightClick();
     }
 
+    /**
+     * Показывает должен ли тайл провоцировать рекурсивое открытие тайлов
+     */
+
     shouldProvokeRecursive(): boolean {
         return false;
     }

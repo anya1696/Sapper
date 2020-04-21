@@ -23,7 +23,7 @@ export default class MainScreen extends PIXI.Container {
         this.loadResources();
     }
 
-    createPlayButton(): void {
+    addPlayButton(): void {
         const textureButton = LoadManager.instance.getResourcesByName(this.PLAY_BUTTON.texture).texture;
         const playButton = new ButtonWithText(textureButton, this.PLAY_BUTTON.text, this.PLAY_BUTTON.style);
         playButton.position.set(this.PLAY_BUTTON.x, this.PLAY_BUTTON.y);
@@ -59,7 +59,7 @@ export default class MainScreen extends PIXI.Container {
 
     loadResources() {
         LoadManager.instance = new LoadManager();
-        LoadManager.instance.setLoadCallback(this.createPlayButton.bind(this));
+        LoadManager.instance.setLoadCallback(this.addPlayButton.bind(this));
         LoadManager.instance.addResourcesToLoadFromConfig();
         LoadManager.instance.startLoad();
     }
