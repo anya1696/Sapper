@@ -2,12 +2,21 @@ import * as PIXI from 'pixi.js';
 import BaseButton from "./BaseButton";
 import TextLabel from "../TextLabel";
 
+/**
+ * Класс кнопки с текстом
+ */
 export default class ButtonWithText extends PIXI.Container {
     textLabel: TextLabel | null = null;
     private button: BaseButton;
     private xCenterOffset: number = 0;
     private yCenterOffset: number = 0;
 
+    /**
+     * Создание кнопки с текстом
+     * @param textureName название тектуры, под которой она записана в ResourcesManager
+     * @param text текст кнопки, если указать undefined, будет ""
+     * @param style стили кнопки, если указать undefined, возьмется базовый стиль из TextLabel
+     */
     constructor(textureName: string, text: string | undefined, style: PIXI.TextStyle | undefined) {
         super();
 
@@ -17,6 +26,11 @@ export default class ButtonWithText extends PIXI.Container {
         this.addTextLabel(text, style);
     }
 
+    /**
+     * Создать и добавить текст кнопки
+     * @param text текст кнопки, если указать undefined, будет ""
+     * @param style стили кнопки, если указать undefined, возьмется базовый стиль из TextLabel
+     */
     addTextLabel(text: string | undefined, style: PIXI.TextStyle | undefined): void {
         text = text || "";
         let textLabel = new TextLabel(text, style);
@@ -38,6 +52,10 @@ export default class ButtonWithText extends PIXI.Container {
         this.toCenterText();
     }
 
+    /**
+     * Изменить текст кнопки
+     * @param text новый текст кнопки
+     */
     setText(text: string): void {
         if (!this.textLabel)
             return;
@@ -59,7 +77,7 @@ export default class ButtonWithText extends PIXI.Container {
 
     /**
      * Добавление обработчика на клик только по кнопке, а не по кнопке и выезжающему за ее пределы тесту
-     * @param {() => void} callback колбек, который вызовется после клика по кнопке
+     * @param callback колбек, который вызовется после клика по кнопке
      */
     addClickHandler(callback: () => void): void {
         this.button.on('click', callback)

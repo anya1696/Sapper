@@ -21,16 +21,29 @@ export default class NumberGridTile extends BaseGridTile {
 
     private _number: number;
 
+    /**
+     * Создает иконку-число
+     * @param number числовое значение иконки
+     * @param colNumber номер колонки, в которой иконка будет находиться
+     * @param rowNumber номер строки, в которой иконка будет находиться
+     */
     constructor(number: number, colNumber: number, rowNumber: number) {
         super(ResourcesManager.instance.getTextureByName(textures[number]), colNumber, rowNumber);
         this._number = number;
     }
 
+    /**
+     * Поведение при клике
+     */
     onClick(): void {
         SapperGameController.instance.onTileClick(this);
         super.onClick();
     }
 
+    /**
+     * Показывает должен ли тайл провоцировать рекурсивное открытие
+     * @returns {boolean} true, если значение тайла = 0 и на тайле нет флага
+     */
     shouldProvokeRecursive(): boolean {
         return this.number === 0 && !this.fsm.is("flagged");
     }

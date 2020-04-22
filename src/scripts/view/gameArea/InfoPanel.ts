@@ -3,6 +3,9 @@ import * as PIXI from "pixi.js";
 import SapperGameController from "../../conroller/SapperGameController";
 import {TweenLite} from "gsap";
 
+/**
+ * Класс поля информации об игре
+ */
 export default class InfoPanel extends PIXI.Container {
     private openCounter: TextLabel;
     private openedTiles: number = 0;
@@ -23,6 +26,9 @@ export default class InfoPanel extends PIXI.Container {
     private shownOpenedTile: number = 0;
     private updateCounterTextTween: any | null = null;
 
+    /**
+     * Создать поле информации об игре
+     */
     constructor() {
         super();
         this.openCounter = this.getCounterOpenTiles();
@@ -32,6 +38,10 @@ export default class InfoPanel extends PIXI.Container {
         this.addChild(this.flagedCounter);
     }
 
+    /**
+     * Создать лейбла счетчика открытых тайлов
+     * @returns {TextLabel} лейбл счетчика открытых тайлов
+     */
     getCounterOpenTiles(): TextLabel {
         const params = this.OPEN;
         let counter = new TextLabel(" _ / _", undefined);
@@ -39,6 +49,10 @@ export default class InfoPanel extends PIXI.Container {
         return counter;
     }
 
+    /**
+     * Создать лейбла счетчика флагов. Счетчик начинается с 10 и уменьшается
+     * @returns {TextLabel} лейбл счетчика флагов
+     */
     getCounterFlagedTiles(): TextLabel {
         const params = this.FLAG;
         let counter = new TextLabel("flags left: " + SapperGameController.instance.getBombAmount(), undefined);
@@ -46,6 +60,9 @@ export default class InfoPanel extends PIXI.Container {
         return counter;
     }
 
+    /**
+     * Анимиция обновления текста лайбла счетчика открытых тайлов
+     */
     updateCounterText(): void {
         if (this.updateCounterTextTween)
             this.updateCounterTextTween.kill();
@@ -56,20 +73,35 @@ export default class InfoPanel extends PIXI.Container {
         })
     }
 
+    /**
+     * Обновить текст лайбла счетчика флагов
+     */
     updateFlagCounterText(): void {
         this.flagedCounter.setText("flags left: " + this.flagedTiles);
     }
 
+    /**
+     * Обновить значение и текст лейбла счетчика открытых тайлов
+     * @param currentOpenTiles новое значение открытых тайлов
+     */
     updateOpenTiles(currentOpenTiles: number): void {
         this.openedTiles = currentOpenTiles;
         this.updateCounterText();
     }
 
-    updateFlagTiles(flagedTiles: number): void {
-        this.flagedTiles = flagedTiles;
+    /**
+     * Обновить значение и текст лейбла счетчика флагов
+     * @param flaggedTiles
+     */
+    updateFlagTiles(flaggedTiles: number): void {
+        this.flagedTiles = flaggedTiles;
         this.updateFlagCounterText();
     }
 
+    /**
+     * Обновить значение и текст лейбла общего числа безопасных тайлов
+     * @param allTiles общее число безопасных тайлов
+     */
     updateAllTiles(allTiles: number): void {
         this.allTiles = allTiles;
         this.updateCounterText();

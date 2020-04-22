@@ -12,6 +12,9 @@ import BombGridTile from "../gridTileElements/BombGridTile";
 import NumberGridTile from "../gridTileElements/NumberGridTile";
 import ButtonWithText from "../elements/buttons/ButtonWithText";
 
+/**
+ * Класс игровой зоны
+ */
 export default class SapperGameArea extends PIXI.Container implements IGameView {
     tileGrid: BaseGridTile[][] = [];
 
@@ -39,19 +42,25 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
     private gameEnded: boolean = false;
     private gamePaused: boolean = false;
 
+    /**
+     * Создать игрово зону
+     */
     constructor() {
         super();
         this.name = "SapperGameArea";
     }
 
+    /**
+     * Начать игру и создать игровую зону (поле, панель инфо)
+     * @param gridMatrix матрица значений поля, создается в SapperGameModel
+     */
     startGame(gridMatrix: number[][]): void {
         this.addGridTiles(gridMatrix);
-        this.createPauseButton();
+        this.addPauseButton();
 
         this.infoPanel = new InfoPanel();
         this.infoPanel.position.set(this.INFO_PANEL.x, this.INFO_PANEL.y);
         this.addChild(this.infoPanel);
-
     }
 
     /**
@@ -80,7 +89,10 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
         this.tileGrid = tileGrid;
     }
 
-    createPauseButton(): void {
+    /**
+     * Создать и добавить кнопку паузы игры
+     */
+    addPauseButton(): void {
         const params = this.PAUSE_BUTTON;
         let pauseButton = new ButtonWithText(params.textureName, params.text, params.style);
         pauseButton.position.set(params.x, params.y);
@@ -88,18 +100,27 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
         this.addChild(pauseButton);
     }
 
+    /**
+     * Показать диалог паузы
+     */
     showPauseScreen(): void {
         this.pauseScreen = new PauseDialog();
         this.addChild(this.pauseScreen);
         this.pauseScreen.show();
     }
 
+    /**
+     * Показать диалог победы
+     */
     showWinScreen(): void {
         this.winScreen = new WinDialog();
         this.addChild(this.winScreen);
         this.winScreen.show();
     }
 
+    /**
+     * Закрыть окно паузы
+     */
     hidePauseScreen(): void {
         if (this.pauseScreen === null) {
             return;
@@ -108,17 +129,26 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
 
     }
 
+    /**
+     * Показать окно поражения
+     */
     showLoseScreen(): void {
         let loseScreen = new LoseDialog();
         this.addChild(loseScreen);
         loseScreen.show();
     }
 
+    /**
+     * закрыть игровую зону и уничтожить
+     */
     closeGame(): void {
         this.gameEnded = true;
         this.destroy();
     }
 
+    /**
+     * Снять игровое поле с паузы
+     */
     continueGame(): void {
         if (!this.gamePaused)
             return;
@@ -126,6 +156,9 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
         this.hidePauseScreen();
     }
 
+    /**
+     * Поведение игровой зоны при поражении
+     */
     loseGame(): void {
         if (this.gameEnded)
             return;
@@ -133,40 +166,72 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
         this.showLoseScreen();
     }
 
+    /**
+     * Поставить игровую зону на паузу
+     */
     pauseGame(): void {
         this.gamePaused = true;
         this.showPauseScreen();
     }
 
+    /**
+     * Поведение игровой зоны при победе
+     */
     winGame(): void {
         this.gameEnded = true;
         this.showWinScreen();
     }
 
+    /**
+     * Поведени при изменении числа флагов на поле
+     * @param FlagTileAmount новое число флагов на поле
+     */
     onGameFlagChange(FlagTileAmount: number): void {
         if (!this.infoPanel)
             return;
         this.infoPanel.updateFlagTiles(SapperGameController.instance.getBombAmount() - FlagTileAmount);
     }
 
+    /**
+     * Поведение ировой зоны при открытии любого тайла и обновление счетчика открытых тайлов
+     * @param openedTileAmount
+     */
     onGameOpenTile(openedTileAmount: number): void {
         if (!this.infoPanel)
             return;
         this.infoPanel.updateOpenTiles(openedTileAmount);
     }
 
+    /**
+     * Открыть вью тайла по его координатам
+     * @param rowNumber номер строки тайла
+     * @param colNumber номер колонки тайла
+     */
     openViewTile(rowNumber: number, colNumber: number): void {
         if (this.tileGrid && this.tileGrid[colNumber] && this.tileGrid[colNumber][rowNumber])
             this.tileGrid[colNumber][rowNumber].openTile();
     }
 
+    /**
+     * Получить вью тайла по координатам, если тайл существует. Иначе возвращает undefined
+     * @param rowNumber номер строки тайла
+     * @param colNumber номер колонки тайла
+     * @returns {BaseGridTile | undefined} Если тайл существует, возвращает тайл, иначе undefined
+     */
     getViewTileByCoord(rowNumber: number, colNumber: number): BaseGridTile | undefined {
         if (this.tileGrid && this.tileGrid[colNumber] && this.tileGrid[colNumber][rowNumber])
             return this.tileGrid[colNumber][rowNumber];
         return undefined;
     }
 
-    public getTileByType(type: any, rowNumber: number, colNumber: number) {
+    /**
+     * Создает и возвращает тайл по его зачению-типу
+     * @param type тип-значение тайла, (бомба, 0-8)
+     * @param rowNumber номер строки тайла
+     * @param colNumber номер колонки тайла
+     * @returns {BaseGridTile} Иконка тайла
+     */
+    public getTileByType(type: any, rowNumber: number, colNumber: number): BaseGridTile {
         if (type === BOMB_VALUE) {
             return new BombGridTile(rowNumber, colNumber);
         } else {

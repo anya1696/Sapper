@@ -3,6 +3,9 @@ import BaseDialog from "./BaseDialog";
 import ButtonWithText from "../elements/buttons/ButtonWithText";
 import SapperGameController from "../../conroller/SapperGameController";
 
+/**
+ * Класс окна паузы
+ */
 export default class PauseDialog extends BaseDialog {
 
     CONT_GAME_BUTTON = {
@@ -31,6 +34,9 @@ export default class PauseDialog extends BaseDialog {
         textureName: "buttonToMainMenu"
     };
 
+    /**
+     * Создать окно паузы
+     */
     constructor() {
         super();
 
@@ -42,6 +48,9 @@ export default class PauseDialog extends BaseDialog {
         this.name = "PauseDialog";
     }
 
+    /**
+     * Создать и добавить кнопку продолжения игры
+     */
     addContinueGameButton(): void {
         const params = this.CONT_GAME_BUTTON;
         const continueGameButton = new ButtonWithText(params.textureName, params.text, params.style);
@@ -51,6 +60,9 @@ export default class PauseDialog extends BaseDialog {
         this.addChild(continueGameButton);
     }
 
+    /**
+     * Создать и добавить кнопку выходя в меню
+     */
     addExitToMenuButton(): void {
         const params = this.TO_MAIN_MENU_BUTTON;
         const exitToMenuButton = new ButtonWithText(params.textureName, params.text, params.style);
@@ -60,11 +72,17 @@ export default class PauseDialog extends BaseDialog {
         this.addChild(exitToMenuButton);
     }
 
+    /**
+     * Логика на клик по кнопке продолжения игры
+     */
     onContinueGameClick(): void {
         SapperGameController.instance.continueGame();
         this.close();
     }
 
+    /**
+     * Логика на клик по кнопке выхода в главное меню
+     */
     onExitToMenuClick(): void {
         SapperGameController.instance.loseGame();
         SapperGameController.instance.closeGame();

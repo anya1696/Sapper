@@ -4,6 +4,9 @@ import ButtonWithText from "../elements/buttons/ButtonWithText";
 import TextLabel from "../elements/TextLabel";
 import SapperGameController from "../../conroller/SapperGameController";
 
+/**
+ * Класс окна победы
+ */
 export default class WinDialog extends BaseDialog {
 
     EXIT_TO_MENU_GAME_BUTTON = {
@@ -30,6 +33,9 @@ export default class WinDialog extends BaseDialog {
         })
     };
 
+    /**
+     * Создание окна победы
+     */
     constructor() {
         super();
 
@@ -41,6 +47,9 @@ export default class WinDialog extends BaseDialog {
         this.name = "WinDialog";
     }
 
+    /**
+     * Создать и добавить кнопку выхода в главное меню
+     */
     addExitToMenuButton(): void {
         const params = this.EXIT_TO_MENU_GAME_BUTTON;
         const exitToMenuButton = new ButtonWithText(params.textureName, params.text, params.style);
@@ -50,10 +59,16 @@ export default class WinDialog extends BaseDialog {
         this.addChild(exitToMenuButton);
     }
 
+    /**
+     * Логика на клик по кнопке выхода в главное меню
+     */
     onExitToMenuClick(): void {
         SapperGameController.instance.closeGame();
     }
 
+    /**
+     * Создать и добавить текст для победного окна
+     */
     addInfoText(): void {
         const params = this.TEXT_ELEMENT;
         const textElement = new TextLabel(params.text, params.style);

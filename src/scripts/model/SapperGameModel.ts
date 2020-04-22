@@ -3,6 +3,9 @@ import SapperGameController from "../conroller/SapperGameController";
 
 export const BOMB_VALUE = -1;
 
+/**
+ * Класс модель для игры
+ */
 export default class SapperGameModel {
     set isPaused(value: boolean) {
         this._isPaused = value;
@@ -61,6 +64,12 @@ export default class SapperGameModel {
 
     private _gameMatrix: number[][] = [];
 
+    /**
+     * Создать модель
+     * @param bombAmount число бомб на игровом поле
+     * @param matrixWidth ширина игрового поля в тайлах
+     * @param matrixHeight высота игрового поля в тайлах
+     */
     constructor(bombAmount: number, matrixWidth: number, matrixHeight: number) {
         this._bombAmount = bombAmount;
         this.matrixWidth = matrixWidth;
@@ -115,6 +124,12 @@ export default class SapperGameModel {
         }
     }
 
+    /**
+     * Посчитать бомбы в радиусе 1 тайла по положению в матрице
+     * @param x положение в строке
+     * @param y положение в колонке
+     * @returns {number} число бобм рядом
+     */
     countNearestBomb(x: number, y: number): number {
         let bombAmount = 0;
 
@@ -127,6 +142,12 @@ export default class SapperGameModel {
         return bombAmount;
     }
 
+    /**
+     * Проверить является ли значение матрицы бомбой
+     * @param xForCheck положение в строке
+     * @param yForCheck положение в колонке
+     * @returns {boolean} является ли значение матрицы бомбой
+     */
     isBomb(xForCheck: number, yForCheck: number): boolean {
         let matrix = this._gameMatrix;
         return matrix[xForCheck] && matrix[xForCheck][yForCheck] != undefined && matrix[xForCheck][yForCheck] === BOMB_VALUE;
@@ -134,7 +155,7 @@ export default class SapperGameModel {
 
     /**
      * Рекурсивное открытие тайлов после открытия любого тайла
-     * @param {IViewTile} tileView который должен открыться
+     * @param tileView который должен открыться
      */
     openTile(tileView: IViewTile): void {
         if (tileView.isOpen() || this._gameEnded) return;
@@ -162,37 +183,62 @@ export default class SapperGameModel {
         }
     }
 
+    /**
+     * Закончить игру
+     */
     loseGame(): void {
         this._gameEnded = true;
     }
 
+    /**
+     * Выиграть игру
+     */
     winGame(): void {
         this._gameEnded = true;
         SapperGameController.instance.winGame();
     }
 
+    /**
+     * Поставить игру на паузу
+     */
     pauseGame(): void {
         if (this.isPaused)
             return;
         this._isPaused = true;
     }
 
+    /**
+     * Продолжить игру
+     */
     continueGame(): void {
         this._isPaused = false;
     }
 
+    /**
+     * Изменить значение счетчика флагов на поле
+     * @param flagedAmount значение на которое изменится значение счетчика флагов
+     */
     changeFlaggedAmount(flagedAmount: number): void {
         this.flagedAmount = flagedAmount;
     }
 
+    /**
+     * Увеличить значение счетчика флагов на 1
+     */
     incFlaggedAmount(): void {
         this.changeFlaggedAmount(this.flagedAmount + 1);
     }
 
+    /**
+     * Уменьшить значение счетчика флагов на 1
+     */
     decFlaggedAmount(): void {
         this.changeFlaggedAmount(this.flagedAmount - 1);
     }
 
+    /**
+     * Увеличить значение счетчика открытых тайлов на 1
+     */
     incOpenedAmount(): void {
         this.amountOpenedTile = (this.amountOpenedTile + 1);
     }

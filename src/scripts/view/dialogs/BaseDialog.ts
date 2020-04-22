@@ -3,6 +3,9 @@ import IDialog from "../interfaces/IDialog";
 import {TweenLite} from "gsap";
 import {APP_HEIGHT, APP_WIDTH} from "../../app";
 
+/**
+ * Класс базового окна
+ */
 export default class BaseDialog extends PIXI.Container implements IDialog {
     private background: PIXI.Sprite;
 
@@ -13,6 +16,9 @@ export default class BaseDialog extends PIXI.Container implements IDialog {
         alpha: 0.6
     };
 
+    /**
+     * Создать базовое окно
+     */
     constructor() {
         super();
         this.background = PIXI.Sprite.from(PIXI.Texture.WHITE);
@@ -20,6 +26,9 @@ export default class BaseDialog extends PIXI.Container implements IDialog {
         this.addChild(this.background);
     }
 
+    /**
+     * Залить и показать темную подложку
+     */
     createShadow(): void {
         const params = this.DEFAULT_SHADOW;
         this.background.visible = true;
@@ -30,10 +39,16 @@ export default class BaseDialog extends PIXI.Container implements IDialog {
         this.background.interactive = true;
     }
 
+    /**
+     * Анимированно показать окно
+     */
     show(): void {
         TweenLite.fromTo(this.scale, 2, {x: 0, y: 0}, {x: 1, y: 1, ease: "elastic.out(1, 0.5)"})
     }
 
+    /**
+     * Анимерованно закрыть окно
+     */
     close(): void {
         TweenLite.to(this.scale, 2, {
             x: 0, y: 0, ease: "elastic.out(1, 0.5)", onComplete: () => {

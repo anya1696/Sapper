@@ -5,6 +5,9 @@ import SapperGameController from "../../conroller/SapperGameController";
 import BaseButton from "../elements/buttons/BaseButton";
 import StateMachine = require("@taoqf/javascript-state-machine");
 
+/**
+ * Базовый класс для тайла
+ */
 export default abstract class BaseGridTile extends PIXI.Container implements IViewTile {
     get fsm(): StateMachine {
         return this._fsm;
@@ -35,6 +38,12 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
     private _rowNumber: number;
     private _colNumber: number;
 
+    /**
+     * Создать базовый класс для тайла
+     * @param texture текстура тайла
+     * @param colNumber колонка, в которой тайл будет находиться
+     * @param rowNumber строка, в которой тайл будет находиться
+     */
     constructor(texture: PIXI.Texture, colNumber: number, rowNumber: number) {
         super();
 
@@ -75,6 +84,9 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         this.onCloseState();
     }
 
+    /**
+     * Перевести иконку в состояние Opened
+     */
     setOpenState(): void {
         if (!this._fsm.can("toOpen"))
             return;
@@ -82,13 +94,22 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         this._fsm.toOpen();
     }
 
+    /**
+     * Открыть тайл
+     */
     openTile(): void {
         this.setOpenState();
     }
 
+    /**
+     * Поведение тайла при клике
+     */
     onClick(): void {
     }
 
+    /**
+     * Поведение тайла при райтклике
+     */
     onRightClick(): void {
         if (!this.fsm.can("rightClick")) {
             return;
@@ -99,8 +120,8 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
 
     /**
      * Показывает должен ли тайл провоцировать рекурсивое открытие тайлов
+     * @returns {boolean} по дефолту тайл не провоцирует
      */
-
     shouldProvokeRecursive(): boolean {
         return false;
     }
@@ -113,10 +134,17 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         return this.rowNumber;
     }
 
+    /**
+     * Показывет открыт ли тайл
+     * @returns {boolean} Находится ли тайл с состоянии opened
+     */
     isOpen(): boolean {
         return this.fsm.is("opened");
     }
 
+    /**
+     * Выстать вью стейта closed
+     */
     showButtonCloseView(): void {
         this.buttonCloseView.visible = true;
         this.buttonFlagView.visible = false;
@@ -124,6 +152,9 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         this.spriteView.visible = false;
     }
 
+    /**
+     * Выстать вью стейта flagged
+     */
     showButtonFlagView(): void {
         this.buttonCloseView.visible = false;
         this.buttonFlagView.visible = true;
@@ -131,6 +162,9 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         this.spriteView.visible = false;
     }
 
+    /**
+     * Выстать вью стейта questioned
+     */
     showButtonQuestionView(): void {
         this.buttonCloseView.visible = false;
         this.buttonFlagView.visible = false;
@@ -138,6 +172,9 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         this.spriteView.visible = false;
     }
 
+    /**
+     * Выстать вью стейта opened
+     */
     showSpriteOpenView(): void {
         this.buttonCloseView.visible = false;
         this.buttonFlagView.visible = false;
@@ -145,6 +182,11 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         this.spriteView.visible = true;
     }
 
+    /**
+     * Создать и вернуть базовую кнопку для вью стейта
+     * @param textureName базовая текстура для кнопке
+     * @returns {BaseButton} собранная кнопка
+     */
     getButton(textureName: string): BaseButton {
         let button = new BaseButton(textureName, undefined, undefined);
         button.height = config.tilesParams.tileHeight;
@@ -153,21 +195,33 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         return button;
     }
 
+    /**
+     * Поведение при переходе в стейт flagged
+     */
     onFlagState(): void {
         this.showButtonFlagView();
         SapperGameController.instance.incFlaggedAmount();
     }
 
+    /**
+     * Поведение при переходе в стейт opened
+     */
     onOpenState(): void {
         this.spriteView.texture = this.openTexture;
         this.showSpriteOpenView();
         SapperGameController.instance.incOpenedAmount();
     }
 
+    /**
+     * Поведение при переходе в стейт closed
+     */
     onCloseState(): void {
         this.showButtonCloseView();
     }
 
+    /**
+     * Поведение при переходе в стейт questioned
+     */
     onQuestionState(): void {
         this.showButtonQuestionView();
         SapperGameController.instance.decFlaggedAmount();

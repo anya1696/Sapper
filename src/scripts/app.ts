@@ -68,12 +68,13 @@ let fpsMeter: FpsMeter;
 const src = "https://i.imgur.com/s4qgg9s.jpg";
 const sprite = PIXI.Sprite.from(src);
 
-window.onload = load;
-
-function load() {
+window.onload = function () {
     create();
-}
+};
 
+/**
+ * Инициализация приложения
+ */
 function create() {
 
     sprite.anchor.set(0.5);

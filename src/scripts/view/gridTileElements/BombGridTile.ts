@@ -8,11 +8,17 @@ export default class BombGridTile extends BaseGridTile {
         super(PIXI.Texture.from(config.tilesTextures.bomb), colNumber, rowNumber);
     }
 
+    /**
+     * Поведение при клике (открытие тайла)
+     */
     onClick(): void {
         super.onClick();
         this.openTile();
     }
 
+    /**
+     * Открыть тайл (провокация поражения)
+     */
     openTile(): void {
         super.openTile();
         if (this.isOpen())

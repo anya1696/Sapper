@@ -4,6 +4,9 @@ import TextLabel from "../elements/TextLabel";
 import ButtonWithText from "../elements/buttons/ButtonWithText";
 import SapperGameController from "../../conroller/SapperGameController";
 
+/**
+ * Клас окна проигрыша
+ */
 export default class LoseDialog extends BaseDialog {
     EXIT_TO_MENU_GAME_BUTTON = {
         x: 250,
@@ -29,6 +32,9 @@ export default class LoseDialog extends BaseDialog {
         })
     };
 
+    /**
+     * Окно проигрыша
+     */
     constructor() {
         super();
 
@@ -39,6 +45,9 @@ export default class LoseDialog extends BaseDialog {
         this.name = "LoseDialog";
     }
 
+    /**
+     * Создать и добавить на окно кнопку выхода в главное меню
+     */
     addExitToMenuButton(): void {
         const params = this.EXIT_TO_MENU_GAME_BUTTON;
         const exitToMenuButton = new ButtonWithText(params.textureName, params.text, params.style);
@@ -48,10 +57,16 @@ export default class LoseDialog extends BaseDialog {
         this.addChild(exitToMenuButton);
     }
 
+    /**
+     * Логика при закрытии окна
+     */
     onExitToMenuClick(): void {
         SapperGameController.instance.closeGame();
     }
 
+    /**
+     * Создать и добавить тест проигрыша
+     */
     addInfoText(): void {
         const params = this.TEXT_ELEMENT;
         const textElement = new TextLabel(params.text, params.style);
