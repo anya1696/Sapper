@@ -1,9 +1,8 @@
 import * as PIXI from 'pixi.js';
 import config from "../../../config/config.json";
-import PauseButton from "./PauseButton";
-import PauseScreen from "../dialogs/PauseScreen";
-import LoseScreen from "../dialogs/LoseScreen";
-import WinScreen from "../dialogs/WinScreen";
+import PauseDialog from "../dialogs/PauseDialog";
+import LoseDialog from "../dialogs/LoseDialog";
+import WinDialog from "../dialogs/WinDialog";
 import IGameView from "../interfaces/IGameView";
 import InfoPanel from "./InfoPanel";
 import SapperGameController from "../../conroller/SapperGameController";
@@ -11,6 +10,7 @@ import BaseGridTile from "../gridTileElements/BaseGridTile";
 import {BOMB_VALUE} from "../../model/SapperGameModel";
 import BombGridTile from "../gridTileElements/BombGridTile";
 import NumberGridTile from "../gridTileElements/NumberGridTile";
+import ButtonWithText from "../elements/buttons/ButtonWithText";
 
 export default class SapperGameArea extends PIXI.Container implements IGameView {
     tileGrid: BaseGridTile[][] = [];
@@ -18,7 +18,9 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
     PAUSE_BUTTON = {
         x: 510,
         y: 90,
-        text: "Pause"
+        text: "Pause",
+        textureName: "pauseButton",
+        style: undefined
     };
 
     TILE_GRID = {
@@ -31,8 +33,8 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
         y: 200
     };
 
-    private pauseScreen: PauseScreen | null = null;
-    private winScreen: WinScreen | null = null;
+    private pauseScreen: PauseDialog | null = null;
+    private winScreen: WinDialog | null = null;
     private infoPanel: InfoPanel | null = null;
     private gameEnded: boolean = false;
     private gamePaused: boolean = false;
@@ -56,7 +58,6 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
      * Создание и добавление сетки тайлов сапера по матрице значений
      * @param {number[][]} gridMatrix Матрица, с заранее сгенеренными значениями будующих тайлов
      */
-
     addGridTiles(gridMatrix: number[][]): void {
         let gridContainer = new PIXI.Container();
         gridContainer.name = "Game Field";
@@ -80,20 +81,21 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
     }
 
     createPauseButton(): void {
-        let pauseButton = new PauseButton(this.PAUSE_BUTTON.text);
-        pauseButton.position.set(this.PAUSE_BUTTON.x, this.PAUSE_BUTTON.y);
+        const params = this.PAUSE_BUTTON;
+        let pauseButton = new ButtonWithText(params.textureName, params.text, params.style);
+        pauseButton.position.set(params.x, params.y);
         pauseButton.addClickHandler(SapperGameController.instance.pauseGame);
         this.addChild(pauseButton);
     }
 
     showPauseScreen(): void {
-        this.pauseScreen = new PauseScreen();
+        this.pauseScreen = new PauseDialog();
         this.addChild(this.pauseScreen);
         this.pauseScreen.show();
     }
 
     showWinScreen(): void {
-        this.winScreen = new WinScreen();
+        this.winScreen = new WinDialog();
         this.addChild(this.winScreen);
         this.winScreen.show();
     }
@@ -107,7 +109,7 @@ export default class SapperGameArea extends PIXI.Container implements IGameView 
     }
 
     showLoseScreen(): void {
-        let loseScreen = new LoseScreen();
+        let loseScreen = new LoseDialog();
         this.addChild(loseScreen);
         loseScreen.show();
     }

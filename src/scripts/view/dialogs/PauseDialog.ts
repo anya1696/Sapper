@@ -2,9 +2,8 @@ import * as PIXI from "pixi.js";
 import BaseDialog from "./BaseDialog";
 import ButtonWithText from "../elements/buttons/ButtonWithText";
 import SapperGameController from "../../conroller/SapperGameController";
-import LoadManager from "../../managers/LoadManager";
 
-export default class PauseScreen extends BaseDialog {
+export default class PauseDialog extends BaseDialog {
 
     CONT_GAME_BUTTON = {
         x: 100,
@@ -16,7 +15,7 @@ export default class PauseScreen extends BaseDialog {
         }),
         xOffset: 90,
         yOffset: undefined,
-        texture: "continueGameButton"
+        textureName: "continueGameButton"
     };
 
     TO_MAIN_MENU_BUTTON = {
@@ -29,7 +28,7 @@ export default class PauseScreen extends BaseDialog {
         }),
         xOffset: 158,
         yOffset: undefined,
-        texture: "buttonToMainMenu"
+        textureName: "buttonToMainMenu"
     };
 
     constructor() {
@@ -40,13 +39,12 @@ export default class PauseScreen extends BaseDialog {
         this.addContinueGameButton();
         this.addExitToMenuButton();
 
-        this.name = "PauseScreen";
+        this.name = "PauseDialog";
     }
 
     addContinueGameButton(): void {
         const params = this.CONT_GAME_BUTTON;
-        const textureButton = LoadManager.instance.getResourcesByName(params.texture).texture;
-        const continueGameButton = new ButtonWithText(textureButton, params.text, params.style);
+        const continueGameButton = new ButtonWithText(params.textureName, params.text, params.style);
         continueGameButton.setTextCenterPositionOffset(params.xOffset, params.yOffset);
         continueGameButton.position.set(params.x, params.y);
         continueGameButton.addClickHandler(this.onContinueGameClick.bind(this));
@@ -55,8 +53,7 @@ export default class PauseScreen extends BaseDialog {
 
     addExitToMenuButton(): void {
         const params = this.TO_MAIN_MENU_BUTTON;
-        const textureButton = LoadManager.instance.getResourcesByName(params.texture).texture;
-        const exitToMenuButton = new ButtonWithText(textureButton, params.text, params.style);
+        const exitToMenuButton = new ButtonWithText(params.textureName, params.text, params.style);
         exitToMenuButton.setTextCenterPositionOffset(params.xOffset, params.yOffset);
         exitToMenuButton.position.set(params.x, params.y);
         exitToMenuButton.addClickHandler(this.onExitToMenuClick.bind(this));

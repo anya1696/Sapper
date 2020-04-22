@@ -1,6 +1,6 @@
 import BaseGridTile from "./BaseGridTile";
 import SapperGameController from "../../conroller/SapperGameController";
-import LoadManager from "../../managers/LoadManager";
+import ResourcesManager from "../managers/ResourcesManager";
 
 const textures = [
     "number_0",
@@ -22,7 +22,7 @@ export default class NumberGridTile extends BaseGridTile {
     private _number: number;
 
     constructor(number: number, colNumber: number, rowNumber: number) {
-        super(LoadManager.instance.getResourcesByName(textures[number]).texture, colNumber, rowNumber);
+        super(ResourcesManager.instance.getTextureByName(textures[number]), colNumber, rowNumber);
         this._number = number;
     }
 

@@ -82,7 +82,6 @@ export default class SapperGameController {
      * @param {number} rowNumber номер строки
      * @param {number} colNumber номер колонки
      */
-
     openViewTile(rowNumber: number, colNumber: number): void {
         this.sapperGameView.openViewTile(rowNumber, colNumber);
     }
@@ -94,7 +93,6 @@ export default class SapperGameController {
     /**
      * Отдает матрицу значений для игрового поля
      */
-
     getGameMatrix(): number[][] {
         return this.sapperGameModel.gameMatrix;
     }

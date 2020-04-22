@@ -8,16 +8,16 @@ export default class ButtonWithText extends PIXI.Container {
     private xCenterOffset: number = 0;
     private yCenterOffset: number = 0;
 
-    constructor(texture: PIXI.Texture, text: string | undefined, style: PIXI.TextStyle | undefined) {
+    constructor(textureName: string, text: string | undefined, style: PIXI.TextStyle | undefined) {
         super();
 
-        this.button = new BaseButton(texture, undefined, undefined);
+        this.button = new BaseButton(textureName, undefined, undefined);
         this.addChild(this.button);
 
         this.addTextLabel(text, style);
     }
 
-    addTextLabel(text: string | undefined, style: PIXI.TextStyle | undefined) {
+    addTextLabel(text: string | undefined, style: PIXI.TextStyle | undefined): void {
         text = text || "";
         let textLabel = new TextLabel(text, style);
         this.textLabel = textLabel;
@@ -30,7 +30,6 @@ export default class ButtonWithText extends PIXI.Container {
      * @param {number | undefined} xOffset смещение по х
      * @param {number | undefined} yOffset смещение по y
      */
-
     setTextCenterPositionOffset(xOffset: number | undefined, yOffset: number | undefined): void {
         if (xOffset !== undefined) this.xCenterOffset = xOffset;
         if (yOffset !== undefined) this.yCenterOffset = yOffset;
@@ -49,7 +48,6 @@ export default class ButtonWithText extends PIXI.Container {
     /**
      * Перестановка текста в середину кнопки
      */
-
     toCenterText(): void {
         let textLabel = this.textLabel;
         if (!textLabel)
@@ -59,8 +57,11 @@ export default class ButtonWithText extends PIXI.Container {
             (-textLabel.height) / 2 + this.yCenterOffset);
     }
 
+    /**
+     * Добавление обработчика на клик только по кнопке, а не по кнопке и выезжающему за ее пределы тесту
+     * @param {() => void} callback колбек, который вызовется после клика по кнопке
+     */
     addClickHandler(callback: () => void): void {
-        // Специально клик только по кнопке, а не по кнопке и выезжающему за ее пределы тесту
         this.button.on('click', callback)
     }
 }

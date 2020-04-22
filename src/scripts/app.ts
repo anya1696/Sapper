@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js'
 import {FpsMeter} from './fps-meter';
 import MainScreen from "./view/mainMenu/MainScreen";
+import ResourcesManager from "./view/managers/ResourcesManager";
 
 window.PIXI = PIXI;
 
@@ -111,13 +112,19 @@ function render() {
 /**
  * Преобразование спрайта в текстуру
  * @param {PIXI.Sprite} obj номер строки
+ * @param {string} spriteName имя текстуры, под которым она сгенерится или возьмется из уже созданных
+ * @return {PIXI.Texture} Только что сгенерированная тестура или взятая из кеша, если уже была создана по именем spriteName
  */
+export function spriteToTexture(obj: PIXI.Sprite, spriteName: string): PIXI.Texture {
+    const cachedTexture = ResourcesManager.instance.getGeneratedTextures(spriteName);
+    if (cachedTexture)
+        return cachedTexture;
 
-export function spriteToTexture(obj: PIXI.Sprite) {
     _pressContainer.addChild(obj);
     // @ts-ignore
     const texture = _renderer.generateTexture(_pressContainer);
     _pressContainer.removeChild(obj);
 
+    ResourcesManager.instance.saveGeneratedTextures(texture, spriteName);
     return texture;
 }

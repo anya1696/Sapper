@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 import {spriteToTexture} from "../../../app";
+import ResourcesManager from "../../managers/ResourcesManager";
 
 export default class BaseButton extends PIXI.Sprite {
     TINTS = {
@@ -13,13 +14,16 @@ export default class BaseButton extends PIXI.Sprite {
 
     private isDown: boolean = false;
     private isOver: boolean = false;
+    private textureButtonBaseName: string;
 
-    constructor(textureButton: PIXI.Texture, textureButtonDown: PIXI.Texture | undefined, textureButtonOver: PIXI.Texture | undefined) {
-        super(textureButton);
-        this.textureButton = textureButton;
+    constructor(textureButtonName: string, textureButtonDownName: string | undefined, textureButtonOverName: string | undefined) {
+        super(ResourcesManager.instance.getTextureByName(textureButtonName));
+        this.textureButtonBaseName = textureButtonName;
 
-        this.textureButtonDown = textureButtonDown ? textureButtonDown : this.generateDownTexture();
-        this.textureButtonOver = textureButtonOver ? textureButtonOver : this.generateOverTexture();
+        this.textureButton = ResourcesManager.instance.getTextureByName(textureButtonName);
+
+        this.textureButtonDown = textureButtonDownName ? ResourcesManager.instance.getTextureByName(textureButtonDownName) : this.generateDownTexture();
+        this.textureButtonOver = textureButtonOverName ? ResourcesManager.instance.getTextureByName(textureButtonOverName) : this.generateOverTexture();
 
         this.anchor.set(0.5);
         this.buttonMode = true;
@@ -67,14 +71,14 @@ export default class BaseButton extends PIXI.Sprite {
         let textureButtonDown = PIXI.Sprite.from(this.textureButton);
         textureButtonDown.tint = this.TINTS.down;
 
-        return spriteToTexture(textureButtonDown);
+        return spriteToTexture(textureButtonDown, this.textureButtonBaseName + "Down");
     }
 
     generateOverTexture() {
         let textureButtonOver = PIXI.Sprite.from(this.textureButton);
         textureButtonOver.tint = this.TINTS.over;
 
-        return spriteToTexture(textureButtonOver);
+        return spriteToTexture(textureButtonOver, this.textureButtonBaseName + "Over");
     }
 
 }

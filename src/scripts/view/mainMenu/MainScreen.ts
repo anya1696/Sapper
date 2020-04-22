@@ -3,7 +3,7 @@ import SapperGameArea from "../gameArea/SapperGameArea";
 import * as PIXI from 'pixi.js';
 import ButtonWithText from "../elements/buttons/ButtonWithText";
 import SapperGameController from "../../conroller/SapperGameController";
-import LoadManager from "../../managers/LoadManager";
+import ResourcesManager from "../managers/ResourcesManager";
 
 export default class MainScreen extends PIXI.Container {
     mainMenu: PIXI.Container = new PIXI.Container();
@@ -13,7 +13,7 @@ export default class MainScreen extends PIXI.Container {
         y: 200,
         text: "Play",
         style: undefined,
-        texture: "playButton"
+        textureName: "playButton"
     };
     private sapperGameModel: SapperGameModel | null = null;
     private gameArea: SapperGameArea | null = null;
@@ -24,9 +24,9 @@ export default class MainScreen extends PIXI.Container {
     }
 
     addPlayButton(): void {
-        const textureButton = LoadManager.instance.getResourcesByName(this.PLAY_BUTTON.texture).texture;
-        const playButton = new ButtonWithText(textureButton, this.PLAY_BUTTON.text, this.PLAY_BUTTON.style);
-        playButton.position.set(this.PLAY_BUTTON.x, this.PLAY_BUTTON.y);
+        const params = this.PLAY_BUTTON;
+        const playButton = new ButtonWithText(params.textureName, params.text, params.style);
+        playButton.position.set(params.x, params.y);
         playButton.addClickHandler(this.startNewGame.bind(this));
         this.mainMenu.addChild(playButton);
         this.addChild(this.mainMenu)
@@ -58,10 +58,10 @@ export default class MainScreen extends PIXI.Container {
     }
 
     loadResources() {
-        LoadManager.instance = new LoadManager();
-        LoadManager.instance.setLoadCallback(this.addPlayButton.bind(this));
-        LoadManager.instance.addResourcesToLoadFromConfig();
-        LoadManager.instance.startLoad();
+        ResourcesManager.instance = new ResourcesManager();
+        ResourcesManager.instance.setLoadCallback(this.addPlayButton.bind(this));
+        ResourcesManager.instance.addResourcesToLoadFromConfig();
+        ResourcesManager.instance.startLoad();
     }
 
 

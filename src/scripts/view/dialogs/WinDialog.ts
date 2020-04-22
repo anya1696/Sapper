@@ -1,11 +1,11 @@
 import * as PIXI from "pixi.js";
 import BaseDialog from "./BaseDialog";
-import TextLabel from "../elements/TextLabel";
 import ButtonWithText from "../elements/buttons/ButtonWithText";
+import TextLabel from "../elements/TextLabel";
 import SapperGameController from "../../conroller/SapperGameController";
-import LoadManager from "../../managers/LoadManager";
 
-export default class LoseScreen extends BaseDialog {
+export default class WinDialog extends BaseDialog {
+
     EXIT_TO_MENU_GAME_BUTTON = {
         x: 250,
         y: 300,
@@ -16,15 +16,15 @@ export default class LoseScreen extends BaseDialog {
         }),
         xOffset: undefined,
         yOffset: 25,
-        texture: "buttonToMainMenu"
+        textureName: "buttonToMainMenu"
     };
 
     TEXT_ELEMENT = {
         x: 100,
         y: 150,
-        text: "You lost the game",
+        text: "You win the game",
         style: new PIXI.TextStyle({
-            fill: "#fc3968",
+            fill: "#8efc83",
             fontFamily: "Arial Black",
             fontSize: 44
         })
@@ -34,16 +34,16 @@ export default class LoseScreen extends BaseDialog {
         super();
 
         this.createShadow();
+
         this.addExitToMenuButton();
         this.addInfoText();
 
-        this.name = "LoseScreen";
+        this.name = "WinDialog";
     }
 
     addExitToMenuButton(): void {
         const params = this.EXIT_TO_MENU_GAME_BUTTON;
-        const textureButton = LoadManager.instance.getResourcesByName(params.texture).texture;
-        const exitToMenuButton = new ButtonWithText(textureButton, params.text, params.style);
+        const exitToMenuButton = new ButtonWithText(params.textureName, params.text, params.style);
         exitToMenuButton.position.set(params.x, params.y);
         exitToMenuButton.setTextCenterPositionOffset(params.xOffset, params.yOffset);
         exitToMenuButton.addClickHandler(this.onExitToMenuClick);

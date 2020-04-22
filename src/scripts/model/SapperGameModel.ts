@@ -78,7 +78,6 @@ export default class SapperGameModel {
     /**
      * Создание матрицы значений для поля
      */
-
     generateGridMatrix(): void {
         for (let i = 0; i < this.matrixHeight; i++) {
             let row: number[] = [];
@@ -92,7 +91,6 @@ export default class SapperGameModel {
     /**
      * Добавление бомб на матрицу
      */
-
     generateBombToMatrix(): void {
         for (let i = 0; i < this._bombAmount; i++) {
             let x = Math.floor(Math.random() * this.matrixWidth);
@@ -108,17 +106,16 @@ export default class SapperGameModel {
     /**
      * Заполнение пустот в матрице цифрами с учетом бомб
      */
-
     generateNumbers(): void {
         for (let i = 0; i < this.matrixWidth; i++) {
             for (let j = 0; j < this.matrixHeight; j++) {
                 if (this._gameMatrix[i][j] !== BOMB_VALUE)
-                    this._gameMatrix[i][j] = this.countNealestBomb(i, j);
+                    this._gameMatrix[i][j] = this.countNearestBomb(i, j);
             }
         }
     }
 
-    countNealestBomb(x: number, y: number): number {
+    countNearestBomb(x: number, y: number): number {
         let bombAmount = 0;
 
         for (let i = x - 1; i <= x + 1; i++) {
@@ -139,7 +136,6 @@ export default class SapperGameModel {
      * Рекурсивное открытие тайлов после открытия любого тайла
      * @param {IViewTile} tileView который должен открыться
      */
-
     openTile(tileView: IViewTile): void {
         if (tileView.isOpen() || this._gameEnded) return;
 

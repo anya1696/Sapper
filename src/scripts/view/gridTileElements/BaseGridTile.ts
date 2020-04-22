@@ -3,7 +3,6 @@ import config from "../../../config/config.json";
 import IViewTile from "../interfaces/IViewTile";
 import SapperGameController from "../../conroller/SapperGameController";
 import BaseButton from "../elements/buttons/BaseButton";
-import LoadManager from "../../managers/LoadManager";
 import StateMachine = require("@taoqf/javascript-state-machine");
 
 export default abstract class BaseGridTile extends PIXI.Container implements IViewTile {
@@ -30,10 +29,6 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         return this._rowNumber;
     }
 
-    closeTexture: PIXI.Texture;
-    flagTexture: PIXI.Texture;
-    questionTexture: PIXI.Texture;
-
     openTexture: PIXI.Texture;
 
     private spriteView: PIXI.Sprite;
@@ -45,15 +40,11 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
 
         this.openTexture = texture;
 
-        this.closeTexture = LoadManager.instance.getResourcesByName(this.TEXTURES.close).texture;
-        this.flagTexture = LoadManager.instance.getResourcesByName(this.TEXTURES.flag).texture;
-        this.questionTexture = LoadManager.instance.getResourcesByName(this.TEXTURES.question).texture;
-
-        this.buttonCloseView = this.getButton(this.closeTexture);
+        this.buttonCloseView = this.getButton(this.TEXTURES.close);
         this.buttonCloseView.name = "buttonCloseView";
-        this.buttonFlagView = this.getButton(this.flagTexture);
+        this.buttonFlagView = this.getButton(this.TEXTURES.flag);
         this.buttonFlagView.name = "buttonFlagView";
-        this.buttonQuestionView = this.getButton(this.questionTexture);
+        this.buttonQuestionView = this.getButton(this.TEXTURES.question);
         this.buttonQuestionView.name = "buttonQuestionView";
 
         this.spriteView = PIXI.Sprite.from(this.openTexture);
@@ -154,8 +145,8 @@ export default abstract class BaseGridTile extends PIXI.Container implements IVi
         this.spriteView.visible = true;
     }
 
-    getButton(texture: PIXI.Texture): BaseButton {
-        let button = new BaseButton(texture, undefined, undefined);
+    getButton(textureName: string): BaseButton {
+        let button = new BaseButton(textureName, undefined, undefined);
         button.height = config.tilesParams.tileHeight;
         button.width = config.tilesParams.tileWidth;
         this.addChild(button);
