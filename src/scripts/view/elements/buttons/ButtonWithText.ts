@@ -13,7 +13,7 @@ export default class ButtonWithText extends PIXI.Container {
 
     /**
      * Создание кнопки с текстом
-     * @param textureName название тектуры, под которой она записана в ResourcesManager
+     * @param textureName название тектуры, под которой она записана в ResourceManager
      * @param text текст кнопки, если указать undefined, будет ""
      * @param style стили кнопки, если указать undefined, возьмется базовый стиль из TextLabel
      */

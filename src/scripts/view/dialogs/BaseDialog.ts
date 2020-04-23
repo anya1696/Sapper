@@ -47,7 +47,7 @@ export default class BaseDialog extends PIXI.Container implements IDialog {
     }
 
     /**
-     * Анимерованно закрыть окно
+     * Анимированно закрыть окно
      */
     close(): void {
         TweenLite.to(this.scale, 2, {

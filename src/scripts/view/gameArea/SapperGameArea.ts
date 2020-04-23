@@ -5,7 +5,7 @@ import LoseDialog from "../dialogs/LoseDialog";
 import WinDialog from "../dialogs/WinDialog";
 import IGameView from "../interfaces/IGameView";
 import InfoPanel from "./InfoPanel";
-import SapperGameController from "../../conroller/SapperGameController";
+import SapperGameController from "../../controller/SapperGameController";
 import BaseGridTile from "../gridTileElements/BaseGridTile";
 import {BOMB_VALUE} from "../../model/SapperGameModel";
 import BombGridTile from "../gridTileElements/BombGridTile";

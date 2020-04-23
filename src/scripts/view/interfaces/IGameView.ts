@@ -23,7 +23,7 @@ export default interface IGameView {
     continueGame(): void;
 
     /**
-     * Поведение игровой зоны при
+     * Поведение игровой зоны при победе
      */
     winGame(): void;
 }

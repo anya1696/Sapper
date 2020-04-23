@@ -2,8 +2,8 @@ import SapperGameModel from "../../model/SapperGameModel";
 import SapperGameArea from "../gameArea/SapperGameArea";
 import * as PIXI from 'pixi.js';
 import ButtonWithText from "../elements/buttons/ButtonWithText";
-import SapperGameController from "../../conroller/SapperGameController";
-import ResourcesManager from "../managers/ResourcesManager";
+import SapperGameController from "../../controller/SapperGameController";
+import ResourceManager from "../managers/ResourceManager";
 
 /**
  * Класс скрин главного экрана
@@ -80,10 +80,10 @@ export default class MainScreen extends PIXI.Container {
      * Загрузить ресурсы игры. Ресурсы загружаются по конфигу config.
      */
     loadResources() {
-        ResourcesManager.instance = new ResourcesManager();
-        ResourcesManager.instance.setLoadCallback(this.addPlayButton.bind(this));
-        ResourcesManager.instance.addResourcesToLoadFromConfig();
-        ResourcesManager.instance.startLoad();
+        ResourceManager.instance = new ResourceManager();
+        ResourceManager.instance.setLoadCallback(this.addPlayButton.bind(this));
+        ResourceManager.instance.addResourcesToLoadFromConfig();
+        ResourceManager.instance.startLoad();
     }
 
 

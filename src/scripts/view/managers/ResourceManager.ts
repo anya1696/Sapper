@@ -1,15 +1,15 @@
 import * as PIXI from "pixi.js";
 import config from "../../../config/config.json";
-import LoaderResource = PIXI.LoaderResource;
+
 /**
- * Ресурс менеджер
+ * Менеджер ресурсов
  */
-export default class ResourcesManager {
+export default class ResourceManager {
     loader: PIXI.Loader = new PIXI.Loader();
     resources: Record<string, PIXI.Texture> = {};
     onBaseLoadCallback: (() => void) | null = null;
 
-    static instance: ResourcesManager;
+    static instance: ResourceManager;
 
     /**
      * Создать ресурс менеджер
@@ -41,7 +41,7 @@ export default class ResourcesManager {
      * Начать загрузку ресурсов, вызывать после добавления всех ресурсов
      */
     startLoad(): void {
-        this.loader.load((_loader: PIXI.Loader, resources: Partial<Record<string, LoaderResource>>) => {
+        this.loader.load((_loader: PIXI.Loader, resources: Partial<Record<string, PIXI.LoaderResource>>) => {
                 this.onLoadEnd(_loader, resources);
                 if (this.onBaseLoadCallback)
                     this.onBaseLoadCallback();
@@ -50,11 +50,11 @@ export default class ResourcesManager {
     }
 
     /**
-     * Колбек на завершения загрузки (запись ресурсов в ResourcesManager)
+     * Колбек на завершения загрузки (запись ресурсов в ResourceManager)
      * @param _loader лоадер который закончил грузиться
      * @param resources все загруженные этим лоадером ресурсы
      */
-    onLoadEnd(_loader: PIXI.Loader, resources: Partial<Record<string, LoaderResource>>): void {
+    onLoadEnd(_loader: PIXI.Loader, resources: Partial<Record<string, PIXI.LoaderResource>>): void {
         for (const [name, resource] of Object.entries(resources)) {
             if (resource)
                 this.resources[name] = resource.texture;

@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 import BaseDialog from "./BaseDialog";
 import ButtonWithText from "../elements/buttons/ButtonWithText";
 import TextLabel from "../elements/TextLabel";
-import SapperGameController from "../../conroller/SapperGameController";
+import SapperGameController from "../../controller/SapperGameController";
 
 /**
  * Класс окна победы

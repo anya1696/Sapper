@@ -1,5 +1,5 @@
 import IViewTile from "../view/interfaces/IViewTile";
-import SapperGameController from "../conroller/SapperGameController";
+import SapperGameController from "../controller/SapperGameController";
 
 export const BOMB_VALUE = -1;
 

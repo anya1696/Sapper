@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import config from "../../../config/config.json";
 import IViewTile from "../interfaces/IViewTile";
-import SapperGameController from "../../conroller/SapperGameController";
+import SapperGameController from "../../controller/SapperGameController";
 import BaseButton from "../elements/buttons/BaseButton";
 import StateMachine = require("@taoqf/javascript-state-machine");
 

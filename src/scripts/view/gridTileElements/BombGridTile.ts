@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import BaseGridTile from "./BaseGridTile";
 import config from "../../../config/config.json";
-import SapperGameController from "../../conroller/SapperGameController";
+import SapperGameController from "../../controller/SapperGameController";
 
 export default class BombGridTile extends BaseGridTile {
     constructor(colNumber: number, rowNumber: number) {

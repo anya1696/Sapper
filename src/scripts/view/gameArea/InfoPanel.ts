@@ -1,6 +1,6 @@
 import TextLabel from "../elements/TextLabel";
 import * as PIXI from "pixi.js";
-import SapperGameController from "../../conroller/SapperGameController";
+import SapperGameController from "../../controller/SapperGameController";
 import {TweenLite} from "gsap";
 
 /**

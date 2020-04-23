@@ -1,6 +1,6 @@
 import BaseGridTile from "./BaseGridTile";
-import SapperGameController from "../../conroller/SapperGameController";
-import ResourcesManager from "../managers/ResourcesManager";
+import SapperGameController from "../../controller/SapperGameController";
+import ResourceManager from "../managers/ResourceManager";
 
 const textures = [
     "number_0",
@@ -28,7 +28,7 @@ export default class NumberGridTile extends BaseGridTile {
      * @param rowNumber номер строки, в которой иконка будет находиться
      */
     constructor(number: number, colNumber: number, rowNumber: number) {
-        super(ResourcesManager.instance.getTextureByName(textures[number]), colNumber, rowNumber);
+        super(ResourceManager.instance.getTextureByName(textures[number]), colNumber, rowNumber);
         this._number = number;
     }
 

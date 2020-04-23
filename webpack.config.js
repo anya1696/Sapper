@@ -26,8 +26,7 @@ const config = {
         new CleanWebpackPlugin(),
         new CopyPlugin([
             { from: 'src/index.html' },
-            { from: 'src/css/style.css', to: 'css/' },
-            { from: 'src/assets/logo.png', to: 'assets/' },
+            { from: 'src/css/style.css', to: 'css/' }
         ]),
     ],
     devServer: {

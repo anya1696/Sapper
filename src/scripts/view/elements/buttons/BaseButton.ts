@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 import {spriteToTexture} from "../../../app";
-import ResourcesManager from "../../managers/ResourcesManager";
+import ResourceManager from "../../managers/ResourceManager";
 
 /**
  * Класс базовой кнопки
@@ -20,19 +20,19 @@ export default class BaseButton extends PIXI.Sprite {
     private textureButtonBaseName: string;
 
     /**
-     * Создние базовой кнопки. Все названия это имя, под которой текстуры записаны в ResourcesManager
+     * Создние базовой кнопки. Все названия это имя, под которой текстуры записаны в ResourceManager
      * @param textureButtonName название базовой текстуры
      * @param textureButtonDownName название тектуры при клике, если указать undefined, то тектура будет сильно затемненной базовой текстурой
      * @param textureButtonOverName название тектуры при наведении, если указать undefined, то тектура будет затемненной базовой текстурой
      */
     constructor(textureButtonName: string, textureButtonDownName: string | undefined, textureButtonOverName: string | undefined) {
-        super(ResourcesManager.instance.getTextureByName(textureButtonName));
+        super(ResourceManager.instance.getTextureByName(textureButtonName));
         this.textureButtonBaseName = textureButtonName;
 
-        this.textureButton = ResourcesManager.instance.getTextureByName(textureButtonName);
+        this.textureButton = ResourceManager.instance.getTextureByName(textureButtonName);
 
-        this.textureButtonDown = textureButtonDownName ? ResourcesManager.instance.getTextureByName(textureButtonDownName) : this.generateDownTexture();
-        this.textureButtonOver = textureButtonOverName ? ResourcesManager.instance.getTextureByName(textureButtonOverName) : this.generateOverTexture();
+        this.textureButtonDown = textureButtonDownName ? ResourceManager.instance.getTextureByName(textureButtonDownName) : this.generateDownTexture();
+        this.textureButtonOver = textureButtonOverName ? ResourceManager.instance.getTextureByName(textureButtonOverName) : this.generateOverTexture();
 
         this.anchor.set(0.5);
         this.buttonMode = true;
